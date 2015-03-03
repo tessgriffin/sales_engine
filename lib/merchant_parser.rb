@@ -8,5 +8,3 @@ merchant_array = []
 merchants.each do |merchant|
   merchant_array << Merchant.new(merchant["id"], merchant["name"], merchant["created_at"], merchant["updated_at"])
 end
-
-repository = File.open("./merchant_repository")
