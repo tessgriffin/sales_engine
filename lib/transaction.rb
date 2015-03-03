@@ -1,11 +1,13 @@
-class Customer
+class Transaction
 
-  attr_reader :id, :first_name, :last_name, :created_at, :updated_at
+  attr_reader :id, :invoice_id, :credit_card_number, :credit_card_expiration_date, :result, :created_at, :updated_at
 
-  def initialize(id, first_name, last_name, created_at, updated_at)
+  def initialize(id, invoice_id, credit_card_number, credit_card_expiration_date, result, created_at, updated_at)
     @id = id
-    @first_name = first_name
-    @last_name = last_name
+    @invoice_id = invoice_id
+    @credit_card_number = credit_card_number
+    @credit_card_expiration_date = credit_card_expiration_date
+    @result = result
     @created_at = created_at
     @updated_at = updated_at
   end
