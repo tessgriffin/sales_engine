@@ -1,6 +1,10 @@
 require 'csv'
 require_relative 'merchant'
 require_relative 'merchant_repository'
+require_relative 'item_repository'
+require_relative 'item_parser'
+require_relative 'customer_parser'
+require_relative 'customer_repository'
 
 class SalesEngine
   def startup
