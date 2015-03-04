@@ -4,7 +4,7 @@ class Invoice
 
   def initialize(id, customer_id, merchant_id, status, created_at, updated_at)
     @id = id
-    @cusomter_id = customer_id
+    @customer_id = customer_id
     @merchant_id = merchant_id
     @status = status
     @created_at = created_at

@@ -4,8 +4,8 @@ require_relative 'customer_repository'
 
 class CustomerParser
 
-  def call
-    customers = CSV.open("../data/customers.csv", {:headers => true} )
+  def call(file)
+    customers = CSV.open(file, {:headers => true} )
     customer_array = []
 
     customers.each do |customer|

@@ -3,8 +3,8 @@ require_relative 'invoice'
 require_relative 'invoice_repository'
 
 class InvoiceParser
-  def call
-    invoices = CSV.open("../data/customers.csv", {:headers => true} )
+  def call(file)
+    invoices = CSV.open(file, {:headers => true} )
     invoice_array = []
 
     invoices.each do |invoice|
