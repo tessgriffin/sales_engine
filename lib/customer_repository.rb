@@ -76,5 +76,4 @@ class CustomerRepository
       x.updated_at == input
     end
   end
-
 end
