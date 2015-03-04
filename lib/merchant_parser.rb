@@ -1,10 +1,18 @@
 require 'csv'
 require_relative 'merchant'
-require_relative 'merchant_repository'
 
-merchants = CSV.open("../data/merchants.csv", {:headers => true} )
-merchant_array = []
+class MerchantParser
 
-merchants.each do |merchant|
-  merchant_array << Merchant.new(merchant["id"], merchant["name"], merchant["created_at"], merchant["updated_at"])
+  def call(file)
+    merchants = CSV.open(file, {:headers => true} )
+    merchant_array = []
+
+    merchants.each do |merchant|
+      merchant_array << Merchant.new(merchant["id"], merchant["name"], merchant["created_at"], merchant["updated_at"])
+    end
+
+    merchant_array
+  end
+
 end
+

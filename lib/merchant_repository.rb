@@ -1,7 +1,14 @@
 class MerchantRepository
-
-  def initialize
-    # array
+  
+  def initialize(merchants)
+    @merchants = merchants
   end
 
+  def all
+    @merchants
+  end
+
+  def random
+    @merchants.sample(1).first
+  end
 end

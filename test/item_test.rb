@@ -34,13 +34,13 @@ class ItemsTest < Minitest::Test
   end
 
   def test_it_has_a_created_at
-    item = Item.new("1", "Item Name", "Description", "75107", "1", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC")
+    item = Item.new("1", "Item Name", "Description", "75107", "1", "2012-03-27 14:53:59 UTC", "2012-03-27 14:55:59 UTC")
     assert_equal "2012-03-27 14:53:59 UTC", item.created_at
   end
 
   def test_it_has_an_updated_at
-    item = Item.new("1", "Item Name", "Description", "75107", "1", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC")
-    assert_equal "2012-03-27 14:53:59 UTC", item.updated_at
+    item = Item.new("1", "Item Name", "Description", "75107", "1", "2012-03-27 14:53:59 UTC", "2012-03-27 14:55:59 UTC")
+    assert_equal "2012-03-27 14:55:59 UTC", item.updated_at
   end
 
 end

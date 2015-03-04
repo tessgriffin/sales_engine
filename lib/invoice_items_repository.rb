@@ -1,4 +1,4 @@
-class InvoiceItemRepository
+class InvoiceItemsRepository
   def initialize(invoice_items)
     @invoice_items = invoice_items
   end
