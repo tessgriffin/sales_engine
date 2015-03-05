@@ -1,6 +1,7 @@
 class TransactionRepository
-  def initialize(transactions)
+  def initialize(transactions, sales_engine)
     @transactions = transactions
+    @sales_engine = sales_engine
   end
 
   def all

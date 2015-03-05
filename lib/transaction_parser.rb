@@ -8,7 +8,7 @@ class TransactionParser
     transaction_array = []
 
     transactions.each do |transaction|
-      transaction_array << Transaction.new(transaction["id"], transaction["invoice_id"], transaction["credit_card_number"], transaction["credit_card_expiration_date"], transaction["result"], transaction["created_at"], transaction["updated_at"])
+      transaction_array << Transaction.new(transaction["id"], transaction["invoice_id"], transaction["credit_card_number"], transaction["credit_card_expiration_date"], transaction["result"], transaction["created_at"], transaction["updated_at"], "repository")
     end
 
     transaction_array
