@@ -1,78 +1,82 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require "../lib/customer_repository"
-require "../lib/customer_parser"
-require "../lib/sales_engine"
+require_relative "../lib/customer_repository"
+# require "../lib/customer_parser"
+require_relative "../lib/sales_engine"
 
 class CustomerRepositoryTest < Minitest::Test
-  def customer_parser
-    CustomerParser.new.call("../data/customers.csv")
-  end
 
-  def sales_engine
-    SalesEngine.new
+  attr_reader :se
+
+  def setup
+    @fake_data = [
+      {"id" => "1","first_name" => "Joe","last_name" => "Johnson", "created_at" => "2012", "updated_at" => "2013"},
+      {"id" => "2","first_name" => "Jane","last_name" => "Ondricka", "created_at" => "2013", "updated_at" => "2014"},
+      {"id" => "3","first_name" => "Bill","last_name" => "Toy", "created_at" => "2012", "updated_at" => "2013"},
+      {"id" => "4","first_name" => "Nancy","last_name" => "Son", "created_at" => "2012", "updated_at" => "2013"},
+      {"id" => "5","first_name" => "Spock","last_name" => "Bob", "created_at" => "2012", "updated_at" => "2013"}
+      ]
+
+    @se = Minitest::Mock.new
   end
 
   def customer_repo
-    CustomerRepository.new(customer_parser, sales_engine)
+    CustomerRepository.new(@fake_data, se)
+  end
+
+  def test_it_knows_its_parent
+    engine = SalesEngine.new
+    repo = CustomerRepository.new(@fake_data, engine)
+    assert_equal engine, repo.sales_engine
   end
 
   def test_all
-    array_fake_customers = Object.new
-    customer_repository = CustomerRepository.new(array_fake_customers, sales_engine)
-    assert_equal array_fake_customers, customer_repository.all
-  end
-
-  def test_random_empty
-    array_fake_customers = []
-    customer_repository = CustomerRepository.new(array_fake_customers, sales_engine)
-    assert_equal nil, customer_repository.random
+    repo = CustomerRepository.new(@fake_data, SalesEngine.new)
+    assert_equal repo.customers, repo.all
   end
 
   def test_random_one
-    fake_customer = Object.new
-    array_fake_customers = [fake_customer]
-    customer_repository = CustomerRepository.new(array_fake_customers, sales_engine)
-    assert_equal fake_customer, customer_repository.random
+    repo = CustomerRepository.new(@fake_data, SalesEngine.new)
+    assert_equal Customer, repo.random.class
   end
 
   def test_find_by_id
-    assert_equal "Witting", customer_repo.find_by_id("47").last_name
+    assert_equal "Johnson", customer_repo.find_by_id("1").last_name
   end
 
   def test_find_by_first_name
-    assert_equal "5", customer_repo.find_by_first_name("Sylvester").id
+    assert_equal "5", customer_repo.find_by_first_name("Spock").id
   end
 
   def test_find_by_last_name
-    assert_equal "Loyal", customer_repo.find_by_last_name("Considine").first_name
+    assert_equal "Bill", customer_repo.find_by_last_name("Toy").first_name
   end
 
   def test_find_by_created_at
-    assert_equal "Ondricka", customer_repo.find_by_created_at("2012-03-27 14:54:09 UTC").last_name
+    assert_equal "Ondricka", customer_repo.find_by_created_at("2013").last_name
   end
 
   def test_find_by_updated_at
-    assert_equal "Joey", customer_repo.find_by_updated_at("2012-03-27 14:54:09 UTC").first_name
+    assert_equal "Jane", customer_repo.find_by_updated_at("2014").first_name
   end
 
   def test_find_all_by_id
-    assert_equal 1, customer_repo.find_all_by_id("16").count
+    assert_equal 1, customer_repo.find_all_by_id("2").count
   end
 
   def test_find_all_by_first_name
-    assert_equal 1, customer_repo.find_all_by_first_name("Cecilia").count
+    assert_equal 1, customer_repo.find_all_by_first_name("Joe").count
   end
 
   def test_find_all_by_last_name
-    assert_equal 3, customer_repo.find_all_by_last_name("Nader").count
+    assert_equal 1, customer_repo.find_all_by_last_name("Ondricka").count
   end
 
   def test_find_all_by_created_at
-    assert_equal 1, customer_repo.find_all_by_created_at("2012-03-27 14:54:09 UTC").count
+    assert_equal 4, customer_repo.find_all_by_created_at("2012").count
   end
 
   def test_find_all_by_updated_at
-    assert_equal 1, customer_repo.find_all_by_updated_at("2012-03-27 14:54:09 UTC").count
+    assert_equal 1, customer_repo.find_all_by_updated_at("2014").count
   end
 end

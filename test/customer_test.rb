@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require "../lib/customer"
+require_relative "../lib/customer"
 
 class CustomerTest < Minitest::Test
   def test_it_exists
@@ -34,6 +34,6 @@ class CustomerTest < Minitest::Test
 
   def test_it_has_a_customer_repository
     customer = Customer.new("1", "customer first_name", "customer last_name", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", "repository")
-    assert_equal "repository", customer.customer_repository
+    assert_equal "repository", customer.repo
   end
 end

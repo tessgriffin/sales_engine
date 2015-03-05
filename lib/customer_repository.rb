@@ -1,6 +1,13 @@
+require_relative 'customer_parser'
+require_relative 'customer'
+
 class CustomerRepository
-  def initialize(customers, sales_engine)
-    @customers = customers
+  attr_reader :customers, :sales_engine #for testing
+
+  def initialize(parsed_data, sales_engine)
+    @customers = parsed_data.map do |customer|
+      Customer.new(customer["id"], customer["first_name"], customer["last_name"], customer["created_at"], customer["updated_at"], self)
+    end
     @sales_engine = sales_engine
   end
 
