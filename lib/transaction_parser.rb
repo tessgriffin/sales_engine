@@ -1,6 +1,6 @@
 require 'csv'
 require_relative 'transaction'
-require_relative 'transaction_repository'
+# require_relative 'transaction_repository'
 
 class TransactionParser
   def call(file)
