@@ -20,7 +20,7 @@ class InvoiceParserTest < Minitest::Test
     assert_equal 4, output.count
   end
 
-  def test_it_returns_array_of_21687_items
+  def test_it_returns_array_of_all_items
     invoice_parser = InvoiceParser.new
     output = invoice_parser.call("../data/invoices.csv")
     assert_equal 4843, output.count
