@@ -1,9 +1,17 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require "../lib/merchant_repository"
-require "../lib/merchant_parser"
+require_relative "../lib/merchant_repository"
+require_relative "../lib/merchant_parser"
 
 class MerchantRepositoryTest < Minitest::Test
+  def merchant_parser
+    MerchantParser.new.call("../data/merchants.csv")
+  end
+
+  def merchant_repo
+    MerchantRepository.new(merchant_parser)
+  end
+
   def test_all
     array_fake_merchants = Object.new
     merchant_repository = MerchantRepository.new(array_fake_merchants)
@@ -24,65 +32,38 @@ class MerchantRepositoryTest < Minitest::Test
   end  
 
   def test_find_by_id
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal "Bernhard-Johns", merchant_repository.find_by_id("7").name
+    assert_equal "Bernhard-Johns", merchant_repo.find_by_id("7").name
   end  
 
   def test_find_by_id_where_id_does_not_exist
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal nil, merchant_repository.find_by_id("101")
+    assert_equal nil, merchant_repo.find_by_id("101")
   end
 
   def test_find_by_name
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal "84", merchant_repository.find_by_name("Terry-Moore").id
+    assert_equal "84", merchant_repo.find_by_name("Terry-Moore").id
   end   
 
   def test_find_by_created_at
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal "1", merchant_repository.find_by_created_at("2012-03-27 14:53:59 UTC").id
+    assert_equal "1", merchant_repo.find_by_created_at("2012-03-27 14:53:59 UTC").id
   end
 
   def test_find_by_updated_at
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal "1", merchant_repository.find_by_updated_at("2012-03-27 14:53:59 UTC").id
+    assert_equal "1", merchant_repo.find_by_updated_at("2012-03-27 14:53:59 UTC").id
   end  
 
   def test_find_all_by_id
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal 1, merchant_repository.find_all_by_id("7").count
+    assert_equal 1, merchant_repo.find_all_by_id("7").count
   end
 
   def test_find_all_by_name
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal 2, merchant_repository.find_all_by_name("Williamson Group").count
+    assert_equal 2, merchant_repo.find_all_by_name("Williamson Group").count
   end  
 
   def test_find_all_by_created_at
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal 9, merchant_repository.find_all_by_created_at("2012-03-27 14:53:59 UTC").count
+    assert_equal 9, merchant_repo.find_all_by_created_at("2012-03-27 14:53:59 UTC").count
   end  
 
   def test_find_all_by_updated_at
-    parser = MerchantParser.new
-    merchant_array = parser.call("../data/merchants.csv")
-    merchant_repository = MerchantRepository.new(merchant_array)
-    assert_equal 12, merchant_repository.find_all_by_updated_at("2012-03-27 14:54:00 UTC").count
+    assert_equal 12, merchant_repo.find_all_by_updated_at("2012-03-27 14:54:00 UTC").count
   end          
 end
