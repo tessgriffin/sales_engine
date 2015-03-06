@@ -1,7 +1,13 @@
+require_relative 'merchant'
+
 class MerchantRepository
+  attr_reader :merchants, :sales_engine
   
-  def initialize(merchants)
-    @merchants = merchants
+  def initialize(parsed_data, sales_engine)
+    @merchants = parsed_data.map do |merchant|
+      Merchant.new(merchant["id"], merchant["name"], merchant["created_at"], merchant["updated_at"], self)
+    end
+    @sales_engine = sales_engine
   end
 
   def all
@@ -58,5 +64,14 @@ class MerchantRepository
     @merchants.find_all do |merchant|
       merchant.updated_at == input
     end
-  end  
+  end 
+
+  def find_items(id)
+    @sales_engine.find_items_by_merchant_id(id)
+  end
+
+
+
+
+
 end
