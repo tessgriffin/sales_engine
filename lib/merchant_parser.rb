@@ -1,5 +1,4 @@
 require 'csv'
-require_relative 'merchant'
 
 class MerchantParser
   def self.call(file_name)
