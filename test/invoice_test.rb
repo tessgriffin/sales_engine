@@ -1,6 +1,5 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require "../lib/invoice"
+require_relative 'test_helper'
+require_relative "../lib/invoice"
 
 class InvoiceTest < Minitest::Test
   def test_it_exists

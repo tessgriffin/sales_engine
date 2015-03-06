@@ -1,12 +1,11 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require "../lib/transaction_repository"
-require "../lib/transaction_parser"
-require "../lib/sales_engine"
+require_relative 'test_helper'
+require_relative "../lib/transaction_repository"
+require_relative "../lib/transaction_parser"
+require_relative "../lib/sales_engine"
 
 class TransactionRepositoryTest < Minitest::Test
   def transaction_parser
-    TransactionParser.new.call("../data/transactions.csv")
+    TransactionParser.new.call("./data/transactions.csv")
   end
 
   def sales_engine
@@ -50,13 +49,13 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_find_by_credit_card_expiration_date
-    parser = TransactionParser.new.call("../data/fake_transactions.csv")
+    parser = TransactionParser.new.call("./data/fake_transactions.csv")
     transaction_repository = TransactionRepository.new(parser, sales_engine)
     assert_equal "56", transaction_repository.find_by_credit_card_expiration_date("2016-03-15").invoice_id
   end
 
   def test_find_by_result
-    parser = TransactionParser.new.call("../data/fake_transactions.csv")
+    parser = TransactionParser.new.call("./data/fake_transactions.csv")
     transaction_repository = TransactionRepository.new(parser, sales_engine)
     assert_equal "1", transaction_repository.find_by_result("success").id
     assert_equal "2", transaction_repository.find_by_result("failure").id
@@ -83,13 +82,13 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_credit_card_expiration_date
-    parser = TransactionParser.new.call("../data/fake_transactions.csv")
+    parser = TransactionParser.new.call("./data/fake_transactions.csv")
     transaction_repository = TransactionRepository.new(parser, sales_engine)
     assert_equal "85", transaction_repository.find_all_by_credit_card_expiration_date("2016-03-16").first.invoice_id
   end
 
   def test_find_all_by_result
-    parser = TransactionParser.new.call("../data/fake_transactions.csv")
+    parser = TransactionParser.new.call("./data/fake_transactions.csv")
     transaction_repository = TransactionRepository.new(parser, sales_engine)
     assert_equal 3, transaction_repository.find_all_by_result("success").count
     assert_equal 1, transaction_repository.find_all_by_result("failure").count

@@ -1,7 +1,5 @@
-require 'minitest/autorun'
-require 'minitest/pride'
+require_relative 'test_helper'
 require_relative "../lib/customer_repository"
-# require "../lib/customer_parser"
 require_relative "../lib/sales_engine"
 
 class CustomerRepositoryTest < Minitest::Test
@@ -21,7 +19,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def customer_repo
-    CustomerRepository.new(@fake_data, se)
+    CustomerRepository.new(@fake_data, @se)
   end
 
   def test_it_knows_its_parent

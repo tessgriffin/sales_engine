@@ -1,11 +1,10 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require "../lib/item_repository"
+require_relative 'test_helper'
+require_relative "../lib/item_repository"
 require_relative "../lib/item_parser"
 
 class ItemRepositoryTest < Minitest::Test
   def item_parser
-    ItemParser.new.call("../data/fake_items.csv")
+    ItemParser.new.call("./data/fake_items.csv")
   end
 
   def item_repo
