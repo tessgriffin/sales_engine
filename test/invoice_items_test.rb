@@ -1,6 +1,5 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require '../lib/invoice_item'
+require_relative 'test_helper'
+require_relative '../lib/invoice_item'
 
 class InvoiceItemsTest < Minitest::Test
 

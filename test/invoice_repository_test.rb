@@ -1,12 +1,11 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require "../lib/invoice_repository"
-require "../lib/invoice_parser"
-require "../lib/sales_engine"
+require_relative 'test_helper'
+require_relative "../lib/invoice_repository"
+require_relative "../lib/invoice_parser"
+require_relative "../lib/sales_engine"
 
 class InvoiceRepositoryTest < Minitest::Test
   def invoice_parser
-    InvoiceParser.new.call("../data/invoices.csv")
+    InvoiceParser.new.call("./data/invoices.csv")
   end
 
   def sales_engine

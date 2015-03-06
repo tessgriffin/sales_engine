@@ -1,11 +1,10 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require "../lib/invoice_items_repository"
-require "../lib/invoice_items_parser"
+require_relative 'test_helper'
+require_relative "../lib/invoice_items_repository"
+require_relative "../lib/invoice_items_parser"
 
 class InvoiceItemsRepositoryTest < Minitest::Test
   def invoice_items_parser
-    InvoiceItemsParser.new.call("../data/fake_invoice_items.csv")
+    InvoiceItemsParser.new.call("./data/fake_invoice_items.csv")
   end
 
   def invoice_items_repo

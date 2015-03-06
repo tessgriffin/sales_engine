@@ -1,6 +1,5 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require "../lib/transaction"
+require_relative 'test_helper'
+require_relative "../lib/transaction"
 
 class TransactionTest < Minitest::Test
   def test_it_exists
