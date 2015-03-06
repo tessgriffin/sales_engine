@@ -30,8 +30,8 @@ class SalesEngine
 
     #@invoice_repository = InvoiceRepository.new(invoices.call("./data/invoices.csv"), self)
 
-    #item_data = ItemParser.call("./data/items.csv")
-    #@item_repository = ItemRepository.new(item_data, self)
+    item_data = ItemParser.call("./data/items.csv")
+    @item_repository = ItemRepository.new(item_data, self)
 
     merchant_data = MerchantParser.call("./data/merchants.csv")
     @merchant_repository = MerchantRepository.new(merchant_data, self)
@@ -41,6 +41,6 @@ class SalesEngine
   end
 
   def find_items_by_merchant_id(id)
-    @item_repository.find_all_by_id(id)
+    @item_repository.find_all_by_merchant_id(id)
   end
 end

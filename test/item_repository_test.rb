@@ -1,37 +1,44 @@
 require_relative 'test_helper'
 require_relative "../lib/item_repository"
-require_relative "../lib/item_parser"
+require_relative "../lib/sales_engine"
 
 class ItemRepositoryTest < Minitest::Test
-  def item_parser
-    ItemParser.new.call("./data/fake_items.csv")
+  attr_reader :se
+
+  def setup
+    @fake_data = [
+      {"id" => "1","name" => "Joe", "description" => "Hello Item", "unit_price" => "75107", "merchant_id" => "1", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
+      {"id" => "2","name" => "Jane", "description" => "Hello Item 2", "unit_price" => "75106", "merchant_id" => "1", "created_at" => "2013", "updated_at" => "2014", "repo" => "repo"},
+      {"id" => "3","name" => "Bill", "description" => "Hello Item 3", "unit_price" => "75106", "merchant_id" => "1", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
+      {"id" => "4","name" => "Nancy", "description" => "Hello Item 4", "unit_price" => "75106", "merchant_id" => "1", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
+      {"id" => "5","name" => "Spock", "description" => "Hello Item 5", "unit_price" => "75106", "merchant_id" => "1", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"}
+      ]
+
+    @se = Minitest::Mock.new
   end
 
   def item_repo
-    ItemRepository.new(item_parser)
+    ItemRepository.new(@fake_data, @se)
+  end
+
+  def test_it_knows_its_parent
+    engine = SalesEngine.new
+    repo = ItemRepository.new(@fake_data, engine)
+    assert_equal engine, repo.sales_engine
   end
 
   def test_all
-    array_fake_items = Object.new
-    item_repository = ItemRepository.new(array_fake_items)
-    assert_equal array_fake_items, item_repository.all
-  end
-
-  def test_random_empty
-    array_fake_items = []
-    item_repository = ItemRepository.new(array_fake_items)
-    assert_equal nil, item_repository.random
+    repo = ItemRepository.new(@fake_data, SalesEngine.new)
+    assert_equal repo.items, repo.all
   end
 
   def test_random_one
-    fake_item = Object.new
-    array_fake_items = [fake_item]
-    item_repository = ItemRepository.new(array_fake_items)
-    assert_equal fake_item, item_repository.random
+    repo = ItemRepository.new(@fake_data, SalesEngine.new)
+    assert_equal Item, repo.random.class
   end
 
   def test_find_by_id
-    assert_equal "Item Qui Esse", item_repo.find_by_id("1").name
+    assert_equal "Joe", item_repo.find_by_id("1").name
   end  
 
   def test_find_by_id_where_id_does_not_exist
@@ -39,15 +46,15 @@ class ItemRepositoryTest < Minitest::Test
   end  
 
   def test_find_by_name
-    assert_equal "2", item_repo.find_by_name("Item Autem Minima").id
+    assert_equal "2", item_repo.find_by_name("Jane").id
   end 
 
   def test_find_by_description
-    assert_equal "1", item_repo.find_by_description("Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.").id
+    assert_equal "1", item_repo.find_by_description("Hello Item").id
   end 
 
   def test_find_by_unit_price
-    assert_equal "2", item_repo.find_by_unit_price("67076").id
+    assert_equal "2", item_repo.find_by_unit_price("75106").id
   end   
 
   def test_find_by_merchant_id
@@ -55,11 +62,11 @@ class ItemRepositoryTest < Minitest::Test
   end    
 
   def test_find_by_created_at
-    assert_equal "1", item_repo.find_by_created_at("2012-03-27 14:53:59 UTC").id
+    assert_equal "1", item_repo.find_by_created_at("2012").id
   end
 
   def test_find_by_updated_at
-    assert_equal "1", item_repo.find_by_updated_at("2012-03-27 14:53:59 UTC").id
+    assert_equal "1", item_repo.find_by_updated_at("2013").id
   end    
 
   def test_find_all_by_id
@@ -71,27 +78,27 @@ class ItemRepositoryTest < Minitest::Test
   end  
 
   def test_find_all_by_name
-    assert_equal 1, item_repo.find_all_by_name("Item Autem Minima").count
+    assert_equal 1, item_repo.find_all_by_name("Joe").count
   end 
 
   def test_find_all_by_description
-    assert_equal 1, item_repo.find_all_by_description("Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro.").count
+    assert_equal 1, item_repo.find_all_by_description("Hello Item 2").count
   end 
 
   def test_find_all_by_unit_price
-    assert_equal 1, item_repo.find_all_by_unit_price("67076").count
+    assert_equal 4, item_repo.find_all_by_unit_price("75106").count
   end   
 
   def test_find_all_by_merchant_id
-    assert_equal 9, item_repo.find_all_by_merchant_id("1").count
+    assert_equal 5, item_repo.find_all_by_merchant_id("1").count
   end    
 
   def test_find_all_by_created_at
-    assert_equal 9, item_repo.find_all_by_created_at("2012-03-27 14:53:59 UTC").count
+    assert_equal 4, item_repo.find_all_by_created_at("2012").count
   end
 
   def test_find_all_by_updated_at
-    assert_equal 9, item_repo.find_all_by_updated_at("2012-03-27 14:53:59 UTC").count
+    assert_equal 1, item_repo.find_all_by_updated_at("2014").count
   end
   
 end

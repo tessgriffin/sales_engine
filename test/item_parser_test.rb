@@ -8,21 +8,19 @@ class ItemParserTest < Minitest::Test
   end
 
   def test_it_returns_array_of_one_item
-    items = ItemParser.new
-    output = items.call("./data/fake_items.csv")
+    output = ItemParser.call("./data/fake_items.csv")
     assert output
   end
 
-  def test_it_returns_array_of_9_items
-    items = ItemParser.new
-    output = items.call("./data/fake_items.csv")
+  def test_it_returns_array_of_multiple_items
+    output = ItemParser.call("./data/fake_items.csv")
     assert_equal 9, output.count
   end
 
-  def test_it_returns_array_of_2483_items
-    items = ItemParser.new
-    output = items.call("./data/items.csv")
+  def test_it_returns_array_of_all_items
+    output = ItemParser.call("./data/items.csv")
     assert_equal 2483, output.count
   end
+
 
 end

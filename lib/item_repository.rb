@@ -1,6 +1,13 @@
+require_relative 'item'
+
 class ItemRepository
-  def initialize(items)
-    @items = items
+  attr_reader :items, :sales_engine
+  
+  def initialize(parsed_data, sales_engine)
+    @items = parsed_data.map do |item|
+      Item.new(item["id"], item["name"], item["description"], item["unit_price"], item["merchant_id"], item["created_at"], item["updated_at"], self)
+    end
+    @sales_engine = sales_engine
   end
 
   def all
