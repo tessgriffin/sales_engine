@@ -53,4 +53,12 @@ class ItemsTest < Minitest::Test
     assert_equal [1, 2], item.invoice_items
     parent.verify
   end
+
+  def test_it_finds_merchant_for_item
+    parent = Minitest::Mock.new
+    item = Item.new("1", "Item Name", "Description", "75107", "1", "2012-03-27 14:53:59 UTC", "2012-03-27 14:55:59 UTC", parent)
+    parent.expect(:find_merchant, [2], [item.merchant_id])
+    assert_equal [2], item.merchant
+    parent.verify
+  end
 end

@@ -91,4 +91,8 @@ class SalesEngine
     merchant = @invoice_repository.find_by_id(id)
     @merchant_repository.find_by_id(merchant.merchant_id)
   end
+
+  def find_merchant_by_id(id)
+    @merchant_repository.find_by_id(id)
+  end
 end
