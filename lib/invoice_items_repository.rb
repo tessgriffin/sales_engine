@@ -2,10 +2,19 @@ require_relative 'invoice_item'
 
 class InvoiceItemsRepository
   attr_reader :invoice_items, :sales_engine
-  
+
   def initialize(parsed_data, sales_engine)
     @invoice_items = parsed_data.map do |invoice_item|
-      InvoiceItem.new(invoice_item["id"], invoice_item["item_id"], invoice_item["invoice_id"], invoice_item["quantity"], invoice_item["unit_price"], invoice_item["created_at"], invoice_item["updated_at"], self)
+      InvoiceItem.new(
+        invoice_item["id"],
+        invoice_item["item_id"],
+        invoice_item["invoice_id"],
+        invoice_item["quantity"],
+        invoice_item["unit_price"],
+        invoice_item["created_at"],
+        invoice_item["updated_at"],
+        self,
+      )
     end
     @sales_engine = sales_engine
   end
@@ -40,7 +49,7 @@ class InvoiceItemsRepository
     @invoice_items.find do |invoice_item|
       invoice_item.quantity == input
     end
-  end  
+  end
 
   def find_by_unit_price(input)
     @invoice_items.find do |invoice_item|
@@ -82,7 +91,7 @@ class InvoiceItemsRepository
     @invoice_items.find_all do |invoice_item|
       invoice_item.quantity == input
     end
-  end  
+  end
 
   def find_all_by_unit_price(input)
     @invoice_items.find_all do |invoice_item|
@@ -100,5 +109,5 @@ class InvoiceItemsRepository
     @invoice_items.find_all do |invoice_item|
       invoice_item.updated_at == input
     end
-  end   
+  end
 end

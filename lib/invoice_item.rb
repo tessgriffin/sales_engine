@@ -1,8 +1,25 @@
 class InvoiceItem
+  attr_reader(
+    :id,
+    :item_id,
+    :invoice_id,
+    :quantity,
+    :unit_price,
+    :created_at,
+    :updated_at,
+    :repo,
+  )
 
-  attr_reader :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at, :repo
-
-  def initialize(id, item_id, invoice_id, quantity, unit_price, created_at, updated_at, repo)
+  def initialize(
+    id,
+    item_id,
+    invoice_id,
+    quantity,
+    unit_price,
+    created_at,
+    updated_at,
+    repo
+  )
     @id = id
     @item_id = item_id
     @invoice_id = invoice_id
@@ -12,5 +29,4 @@ class InvoiceItem
     @updated_at = updated_at
     @repo = repo
   end
-
 end
