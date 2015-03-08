@@ -29,4 +29,8 @@ class InvoiceItem
     @updated_at = updated_at
     @repo = repo
   end
+
+  def invoice
+    repo.find_invoice(invoice_id)
+  end
 end

@@ -110,4 +110,8 @@ class InvoiceItemsRepository
       invoice_item.updated_at == input
     end
   end
+
+  def find_invoice(invoice_id)
+    sales_engine.find_invoice_by_id(invoice_id)
+  end
 end

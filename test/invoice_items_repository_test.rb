@@ -105,5 +105,13 @@ class InvoiceItemsRepositoryTest < Minitest::Test
 
   def test_find_all_by_updated_at
     assert_equal 1, invoice_items_repo.find_all_by_updated_at("2014").count
-  end   
+  end  
+
+  def test_it_can_talk_to_parent_for_invoice
+    parent = Minitest::Mock.new
+    repo = InvoiceItemsRepository.new(@fake_data, parent)
+    parent.expect(:find_invoice_by_id, [1, 2], ["1"])
+    assert_equal [1, 2], repo.find_invoice("1")
+    parent.verify
+  end 
 end

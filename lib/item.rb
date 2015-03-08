@@ -18,6 +18,6 @@ class Item
   end
 
   def merchant
-    repo.find_merchant(id)
+    repo.find_merchant(merchant_id)
   end
 end
