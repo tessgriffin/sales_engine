@@ -2,7 +2,6 @@ require_relative 'test_helper'
 require_relative '../lib/item'
 
 class ItemsTest < Minitest::Test
-
   def test_it_exists
     assert Item
   end
@@ -47,4 +46,11 @@ class ItemsTest < Minitest::Test
     assert_equal "repo", item.repo
   end
 
+  def test_it_finds_invoice_items_for_item
+    parent = Minitest::Mock.new
+    item = Item.new("1", "Item Name", "Description", "75107", "1", "2012-03-27 14:53:59 UTC", "2012-03-27 14:55:59 UTC", parent)
+    parent.expect(:find_invoice_items, [1, 2], [item.id])
+    assert_equal [1, 2], item.invoice_items
+    parent.verify
+  end
 end

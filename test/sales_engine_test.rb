@@ -83,6 +83,13 @@ class SalesEngineTest < Minitest::Test
     assert_equal 3, transactions.count
   end
 
+  def test_it_can_find_invoice_items_by_item_id
+    engine = SalesEngine.new
+    engine.startup
+    invoice_items = engine.find_invoice_items_by_item_id("539")
+    assert_equal 7, invoice_items.count
+  end
+
   def test_it_can_find_invoice_items_by_invoice_id
     engine = SalesEngine.new
     engine.startup

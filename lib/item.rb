@@ -12,5 +12,8 @@ class Item
     @updated_at = updated_at
     @repo = repo
   end
-
+  
+  def invoice_items
+    repo.find_invoice_items(id)
+  end
 end
