@@ -5,7 +5,16 @@ class ItemRepository
   
   def initialize(parsed_data, sales_engine)
     @items = parsed_data.map do |item|
-      Item.new(item["id"], item["name"], item["description"], item["unit_price"], item["merchant_id"], item["created_at"], item["updated_at"], self)
+      Item.new(
+        item["id"], 
+        item["name"], 
+        item["description"], 
+        item["unit_price"], 
+        item["merchant_id"], 
+        item["created_at"], 
+        item["updated_at"], 
+        self
+        )
     end
     @sales_engine = sales_engine
   end
@@ -100,5 +109,9 @@ class ItemRepository
     @items.find_all do |item|
       item.updated_at == input
     end
-  end   
+  end 
+
+  def find_invoice_items(id) 
+    sales_engine.find_invoice_items_by_item_id(id) 
+  end
 end
