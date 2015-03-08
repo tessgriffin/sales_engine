@@ -69,6 +69,13 @@ class SalesEngineTest < Minitest::Test
     assert_equal "33", invoice.merchant_id
   end
 
+  def test_it_can_find_invoices_by_merchant_id
+    engine = SalesEngine.new
+    engine.startup
+    invoices = engine.find_invoices_by_merchant_id("26")
+    assert_equal 48, invoices.count
+  end
+
   def test_it_can_find_transactions_by_invoice_id
     engine = SalesEngine.new
     engine.startup

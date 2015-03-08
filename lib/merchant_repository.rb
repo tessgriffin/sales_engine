@@ -5,7 +5,13 @@ class MerchantRepository
   
   def initialize(parsed_data, sales_engine)
     @merchants = parsed_data.map do |merchant|
-      Merchant.new(merchant["id"], merchant["name"], merchant["created_at"], merchant["updated_at"], self)
+      Merchant.new(
+        merchant["id"], 
+        merchant["name"], 
+        merchant["created_at"], 
+        merchant["updated_at"], 
+        self
+        )
     end
     @sales_engine = sales_engine
   end
@@ -70,8 +76,7 @@ class MerchantRepository
     @sales_engine.find_items_by_merchant_id(id)
   end
 
-
-
-
-
+  def find_invoices(id)
+    @sales_engine.find_invoices_by_merchant_id(id)
+  end
 end
