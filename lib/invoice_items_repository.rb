@@ -4,15 +4,15 @@ class InvoiceItemsRepository
   attr_reader :invoice_items, :sales_engine
 
   def initialize(parsed_data, sales_engine)
-    @invoice_items = parsed_data.map do |invoice_item|
+    @invoice_items = parsed_data.map do |data|
       InvoiceItem.new(
-        invoice_item["id"],
-        invoice_item["item_id"],
-        invoice_item["invoice_id"],
-        invoice_item["quantity"],
-        invoice_item["unit_price"],
-        invoice_item["created_at"],
-        invoice_item["updated_at"],
+        data["id"],
+        data["item_id"],
+        data["invoice_id"],
+        data["quantity"],
+        data["unit_price"],
+        data["created_at"],
+        data["updated_at"],
         self,
       )
     end

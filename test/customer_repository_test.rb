@@ -29,12 +29,12 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_all
-    repo = CustomerRepository.new(@fake_data, SalesEngine.new)
+    repo = CustomerRepository.new(@fake_data, @se)
     assert_equal repo.customers, repo.all
   end
 
   def test_random_one
-    repo = CustomerRepository.new(@fake_data, SalesEngine.new)
+    repo = CustomerRepository.new(@fake_data, @se)
     assert_equal Customer, repo.random.class
   end
 
@@ -76,5 +76,13 @@ class CustomerRepositoryTest < Minitest::Test
 
   def test_find_all_by_updated_at
     assert_equal 1, customer_repo.find_all_by_updated_at("2014").count
+  end
+
+  def test_it_can_talk_to_parent_for_invoices
+    parent = Minitest::Mock.new
+    repo = CustomerRepository.new(@fake_data, parent)
+    parent.expect(:find_invoices_by_customer_id, [1, 2], ["1"])
+    assert_equal [1, 2], repo.find_invoices("1")
+    parent.verify
   end
 end

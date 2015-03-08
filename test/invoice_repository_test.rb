@@ -4,35 +4,44 @@ require_relative "../lib/invoice_parser"
 require_relative "../lib/sales_engine"
 
 class InvoiceRepositoryTest < Minitest::Test
-  def invoice_parser
-    InvoiceParser.new.call("./data/invoices.csv")
+  attr_reader :se
+
+  def setup
+    @se = Minitest::Mock.new
   end
 
+  #get rid of this:
+  def invoice_parser
+    InvoiceParser.call("./data/invoices.csv")
+  end
+
+  #get rid of this:
   def sales_engine
     SalesEngine.new
   end
 
   def invoice_repo
-    InvoiceRepository.new(invoice_parser, sales_engine)
+    #make invoice_parser @fake_data
+    InvoiceRepository.new(invoice_parser, @se)
+  end
+
+  def test_it_knows_its_parent
+    skip
+    engine = SalesEngine.new
+    repo = CustomerRepository.new(@fake_data, engine)
+    assert_equal engine, repo.sales_engine
   end
 
   def test_all
-    array_fake_invoices = Object.new
-    invoice_repository = InvoiceRepository.new(array_fake_invoices, sales_engine)
-    assert_equal array_fake_invoices, invoice_repository.all
-  end
-
-  def test_random_empty
-    array_fake_invoices = []
-    invoice_repository = InvoiceRepository.new(array_fake_invoices, sales_engine)
-    assert_equal nil, invoice_repository.random
+    skip
+    repo = InvoiceRepository.new(@fake_data, @se)
+    assert_equal repo.invoices, repo.all
   end
 
   def test_random_one
-    fake_invoice = Object.new
-    array_fake_invoices = [fake_invoice]
-    invoice_repository = InvoiceRepository.new(array_fake_invoices, sales_engine)
-    assert_equal fake_invoice, invoice_repository.random
+    skip
+    repo = InvoiceRepository.new(@fake_data, @se)
+    assert_equal Invoice, repo.random.class
   end
 
   def test_find_by_id

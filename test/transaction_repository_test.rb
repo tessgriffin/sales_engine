@@ -1,104 +1,128 @@
 require_relative 'test_helper'
 require_relative "../lib/transaction_repository"
-require_relative "../lib/transaction_parser"
 require_relative "../lib/sales_engine"
 
 class TransactionRepositoryTest < Minitest::Test
-  def transaction_parser
-    TransactionParser.new.call("./data/transactions.csv")
-  end
+  attr_reader :se
 
-  def sales_engine
-    SalesEngine.new
+  def setup
+    @fake_data = [
+      {
+        "id" => "1",
+        "invoice_id" => "56",
+        "credit_card_number" => "4565654576890987",
+        "credit_card_expiration_date" => "2016",
+        "result" => "success",
+        "created_at" => "2012",
+        "updated_at" => "2013",
+      },
+      {
+        "id" => "2",
+        "invoice_id" => "85",
+        "credit_card_number" => "4565654576890988",
+        "credit_card_expiration_date" => "2016",
+        "result" => "failure",
+        "created_at" => "2013",
+        "updated_at" => "2014",
+      },
+      {
+        "id" => "3",
+        "invoice_id" => "187",
+        "credit_card_number" => "4565654576890989",
+        "credit_card_expiration_date" => "2016",
+        "result" => "success",
+        "created_at" => "2012",
+        "updated_at" => "2013",
+      },
+      {
+        "id" => "4",
+        "invoice_id" => "93",
+        "credit_card_number" => "4565654576890980",
+        "credit_card_expiration_date" => "2016",
+        "result" => "success",
+        "created_at" => "2012",
+        "updated_at" => "2013",
+      }
+    ]
+
+    @se = Minitest::Mock.new
   end
 
   def transaction_repo
-    TransactionRepository.new(transaction_parser, sales_engine)
+    TransactionRepository.new(@fake_data, @se)
+  end
+
+  def test_it_knows_its_parent
+    engine = SalesEngine.new
+    repo = TransactionRepository.new(@fake_data, engine)
+    assert_equal engine, repo.sales_engine
   end
 
   def test_all
-    array_fake_transactions = Object.new
-    #salesengine = SalesEngine.new --> then put salesengine in the () below
-    transaction_repository = TransactionRepository.new(array_fake_transactions, sales_engine)
-    assert_equal array_fake_transactions, transaction_repository.all
-  end
-
-  def test_random_empty
-    array_fake_transactions = []
-    transaction_repository = TransactionRepository.new(array_fake_transactions, sales_engine)
-    assert_equal nil, transaction_repository.random
+    repo = TransactionRepository.new(@fake_data, @se)
+    assert_equal repo.transactions, repo.all
   end
 
   def test_random_one
-    fake_transaction = Object.new
-    array_fake_transactions = [fake_transaction]
-    transaction_repository = TransactionRepository.new(array_fake_transactions, sales_engine)
-    assert_equal fake_transaction, transaction_repository.random
+    repo = TransactionRepository.new(@fake_data, @se)
+    assert_equal Transaction, repo.random.class
   end
 
   def test_find_by_id
-    assert_equal "4844518708741275", transaction_repo.find_by_id("5").credit_card_number
+    assert_equal "4565654576890987", transaction_repo.find_by_id("1").credit_card_number
   end
 
   def test_find_by_invoice_id
-    assert_equal "4654405418249632", transaction_repo.find_by_invoice_id("1").credit_card_number
+    assert_equal "4565654576890987", transaction_repo.find_by_invoice_id("56").credit_card_number
   end
 
   def test_find_by_credit_card_number
-    assert_equal "2", transaction_repo.find_by_credit_card_number("4580251236515201").id
+    assert_equal "1", transaction_repo.find_by_credit_card_number("4565654576890987").id
   end
 
   def test_find_by_credit_card_expiration_date
-    parser = TransactionParser.new.call("./data/fake_transactions.csv")
-    transaction_repository = TransactionRepository.new(parser, sales_engine)
-    assert_equal "56", transaction_repository.find_by_credit_card_expiration_date("2016-03-15").invoice_id
+    assert_equal "56", transaction_repo.find_by_credit_card_expiration_date("2016").invoice_id
   end
 
   def test_find_by_result
-    parser = TransactionParser.new.call("./data/fake_transactions.csv")
-    transaction_repository = TransactionRepository.new(parser, sales_engine)
-    assert_equal "1", transaction_repository.find_by_result("success").id
-    assert_equal "2", transaction_repository.find_by_result("failure").id
+    assert_equal "1", transaction_repo.find_by_result("success").id
+    assert_equal "2", transaction_repo.find_by_result("failure").id
   end
 
   def test_find_by_created_at
-    assert_equal "1", transaction_repo.find_by_created_at("2012-03-27 14:54:09 UTC").id
+    assert_equal "1", transaction_repo.find_by_created_at("2012").id
   end
 
   def test_find_by_updated_at
-    assert_equal "1", transaction_repo.find_by_updated_at("2012-03-27 14:54:09 UTC").id
+    assert_equal "1", transaction_repo.find_by_updated_at("2013").id
   end
 
   def test_find_all_by_id
-    assert_equal 1, transaction_repo.find_all_by_id("16").count
+    assert_equal 1, transaction_repo.find_all_by_id("4").count
   end
 
   def test_find_all_by_invoice_id
-    assert_equal 1, transaction_repo.find_all_by_invoice_id("1").count
+    assert_equal 1, transaction_repo.find_all_by_invoice_id("187").count
   end
 
   def test_find_all_by_credit_card_number
-    assert_equal "7", transaction_repo.find_all_by_credit_card_number("4801647818676136").first.id
+    assert_equal 1, transaction_repo.find_all_by_credit_card_number("4565654576890989").count
   end
 
   def test_find_all_by_credit_card_expiration_date
-    parser = TransactionParser.new.call("./data/fake_transactions.csv")
-    transaction_repository = TransactionRepository.new(parser, sales_engine)
-    assert_equal "85", transaction_repository.find_all_by_credit_card_expiration_date("2016-03-16").first.invoice_id
+    assert_equal 4, transaction_repo.find_all_by_credit_card_expiration_date("2016").count
   end
 
   def test_find_all_by_result
-    parser = TransactionParser.new.call("./data/fake_transactions.csv")
-    transaction_repository = TransactionRepository.new(parser, sales_engine)
-    assert_equal 3, transaction_repository.find_all_by_result("success").count
-    assert_equal 1, transaction_repository.find_all_by_result("failure").count
+    assert_equal 3, transaction_repo.find_all_by_result("success").count
+    assert_equal 1, transaction_repo.find_all_by_result("failure").count
   end
 
   def test_find_all_by_created_at
-    assert_equal 2, transaction_repo.find_all_by_created_at("2012-03-27 14:54:09 UTC").count
+    assert_equal 3, transaction_repo.find_all_by_created_at("2012").count
   end
 
   def test_find_all_by_updated_at
-    assert_equal 2, transaction_repo.find_all_by_updated_at("2012-03-27 14:54:09 UTC").count
+    assert_equal 1, transaction_repo.find_all_by_updated_at("2014").count
   end
 end

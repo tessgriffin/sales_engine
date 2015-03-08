@@ -1,9 +1,7 @@
 require_relative 'test_helper'
 require_relative "../lib/sales_engine"
 
-
 class SalesEngineTest < Minitest::Test
-
   def test_it_exists
     assert SalesEngine
   end
@@ -19,10 +17,17 @@ class SalesEngineTest < Minitest::Test
     assert engine.customer_repository
   end
 
-  def test_it_has_a_merchant_repo_when_started_up
+  def test_it_has_an_invoice_items_repo_when_started_up
+    skip
     engine = SalesEngine.new
     engine.startup
-    assert engine.merchant_repository
+    assert engine.invoice_items_repository
+  end
+
+  def test_it_has_an_invoice_repo_when_started_up
+    engine = SalesEngine.new
+    engine.startup
+    assert engine.invoice_repository
   end
 
   def test_it_has_an_item_repo_when_started_up
@@ -31,12 +36,71 @@ class SalesEngineTest < Minitest::Test
     assert engine.item_repository
   end
 
+  def test_it_has_a_merchant_repo_when_started_up
+    engine = SalesEngine.new
+    engine.startup
+    assert engine.merchant_repository
+  end
+
+  def test_it_has_a_transaction_repo_when_started_up
+    engine = SalesEngine.new
+    engine.startup
+    assert engine.transaction_repository
+  end
+
   def test_it_can_find_items_by_merchant_id
     engine = SalesEngine.new
     engine.startup
     items = engine.find_items_by_merchant_id("2")
-
     assert_equal 38, items.count
   end
 
+  def test_it_can_find_invoices_by_customer_id
+    engine = SalesEngine.new
+    engine.startup
+    invoices = engine.find_invoices_by_customer_id("3")
+    assert_equal 4, invoices.count
+  end
+
+  def test_it_can_find_invoices_by_transaction_id
+    engine = SalesEngine.new
+    engine.startup
+    invoice = engine.find_invoice_by_transaction_id("3")
+    assert_equal "33", invoice.merchant_id
+  end
+
+  def test_it_can_find_transactions_by_invoice_id
+    engine = SalesEngine.new
+    engine.startup
+    transactions = engine.find_transactions_by_invoice_id("12")
+    assert_equal 3, transactions.count
+  end
+
+  def test_it_can_find_invoice_items_by_invoice_id
+    engine = SalesEngine.new
+    engine.startup
+    invoice_items = engine.find_invoice_items_by_invoice_id("1")
+    assert_equal 8, invoice_items.count
+  end
+
+  def test_it_can_find_items_by_invoice_id
+    engine = SalesEngine.new
+    engine.startup
+    item = engine.find_items_by_invoice_id("4")
+    assert_equal 2, item.count
+  end
+
+  def test_it_can_find_customer_by_invoice_id
+    engine = SalesEngine.new
+    engine.startup
+    customer = engine.find_customer_by_invoice_id("9")
+    assert_equal "Osinski", customer.last_name
+  end
+
+  def test_it_can_find_merchant_by_invoice_id
+    engine = SalesEngine.new
+    engine.startup
+    merchant = engine.find_merchant_by_invoice_id("1")
+    assert_equal "Balistreri, Schaefer and Kshlerin", merchant.name
+  end
 end
