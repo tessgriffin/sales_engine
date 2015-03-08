@@ -31,11 +31,19 @@ class MerchantTest < Minitest::Test
     assert_equal "repo", merchant.repo
   end
 
-  def test_it_can_talk_to_parent
+  def test_it_finds_items_for_merchant
     parent = Minitest::Mock.new
     merchant = Merchant.new("1", "merchant first_name", "2012-03-27 14:53:59 UTC", "2012-03-27 14:45:59 UTC", parent)
-    parent.expect(:find_items, [1, 2], ["1"])
+    parent.expect(:find_items, [1, 2], [merchant.id])
     assert_equal [1, 2], merchant.items
+    parent.verify
+  end
+
+  def test_it_finds_invoices_for_merchant
+    parent = Minitest::Mock.new
+    merchant = Merchant.new("1", "merchant first_name", "2012-03-27 14:53:59 UTC", "2012-03-27 14:45:59 UTC", parent)
+    parent.expect(:find_invoices, [1, 2], [merchant.id])
+    assert_equal [1, 2], merchant.invoices
     parent.verify
   end
 end
