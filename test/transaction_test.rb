@@ -43,6 +43,6 @@ class TransactionTest < Minitest::Test
 
   def test_it_has_a_transaction_repository
     transaction = Transaction.new("1", "invoice_id", "credit_card_number", "expiration", "result", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", "repository")
-    assert_equal "repository", transaction.transaction_repository
+    assert_equal "repository", transaction.repo
   end
 end

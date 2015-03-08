@@ -1,6 +1,13 @@
+require_relative 'transaction_parser'
+require_relative 'transaction'
+
 class TransactionRepository
-  def initialize(transactions, sales_engine)
-    @transactions = transactions
+  attr_reader :transactions, :sales_engine #for testing
+
+  def initialize(parsed_data, sales_engine)
+    @transactions = parsed_data.map do |transaction|
+      Transaction.new(transaction["id"], transaction["invoice_id"], transaction["credit_card_number"], transaction["credit_card_expiration_date"], transaction["result"], transaction["created_at"], transaction["updated_at"], self)
+    end
     @sales_engine = sales_engine
   end
 
@@ -99,5 +106,9 @@ class TransactionRepository
     @transactions.find_all do |transaction|
       transaction.updated_at == input
     end
+  end
+
+  def find_invoice(id)
+    @sales_engine.find_invoice_by_transaction_id(id)
   end
 end

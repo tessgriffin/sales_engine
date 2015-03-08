@@ -1,16 +1,8 @@
 require 'csv'
 require_relative 'transaction'
-# require_relative 'transaction_repository'
 
 class TransactionParser
-  def call(file)
-    transactions = CSV.open(file, {:headers => true} )
-    transaction_array = []
-
-    transactions.each do |transaction|
-      transaction_array << Transaction.new(transaction["id"], transaction["invoice_id"], transaction["credit_card_number"], transaction["credit_card_expiration_date"], transaction["result"], transaction["created_at"], transaction["updated_at"], "repository")
-    end
-
-    transaction_array
+  def self.call(file_name)
+    transactions = CSV.open(file_name, {:headers => true} )
   end
 end

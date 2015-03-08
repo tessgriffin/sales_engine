@@ -7,21 +7,13 @@ class InvoiceParserTest < Minitest::Test
     assert InvoiceParser
   end
 
-  def test_it_returns_array_of_one_item
-    invoice_parser = InvoiceParser.new
-    output = invoice_parser.call("./data/fake_invoices.csv")
-    assert output
-  end
-
-  def test_it_returns_array_of_2_items
-    invoice_parser = InvoiceParser.new
-    output = invoice_parser.call("./data/fake_invoices.csv")
+  def test_it_returns_array_of_multiple_items
+    output = InvoiceParser.call("./data/fake_invoices.csv")
     assert_equal 4, output.count
   end
 
   def test_it_returns_array_of_all_items
-    invoice_parser = InvoiceParser.new
-    output = invoice_parser.call("./data/invoices.csv")
+    output = InvoiceParser.call("./data/invoices.csv")
     assert_equal 4843, output.count
   end
 

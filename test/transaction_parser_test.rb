@@ -7,21 +7,13 @@ class TransactionParserTest < Minitest::Test
     assert TransactionParser
   end
 
-  def test_it_returns_array_of_one_item
-    transactions = TransactionParser.new
-    output = transactions.call("./data/fake_transactions.csv")
-    assert output
-  end
-
-  def test_it_returns_array_of_2_items
-    transactions = TransactionParser.new
-    output = transactions.call("./data/fake_transactions.csv")
+  def test_it_returns_array_of_multiple_items
+    output = TransactionParser.call("./data/fake_transactions.csv")
     assert_equal 4, output.count
   end
 
   def test_it_returns_array_of_all_items
-    transactions = TransactionParser.new
-    output = transactions.call("./data/transactions.csv")
+    output = TransactionParser.call("./data/transactions.csv")
     assert_equal 5595, output.count
   end
 

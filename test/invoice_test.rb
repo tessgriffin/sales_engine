@@ -38,6 +38,6 @@ class InvoiceTest < Minitest::Test
 
   def test_it_has_an_invoice_repository
     invoice = Invoice.new("1", "customer_id", "merchant_id", "status", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", "repository")
-    assert_equal "repository", invoice.invoice_repository
+    assert_equal "repository", invoice.repo
   end
 end

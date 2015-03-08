@@ -4,16 +4,35 @@ require_relative "../lib/transaction_parser"
 require_relative "../lib/sales_engine"
 
 class TransactionRepositoryTest < Minitest::Test
+
+#make this look like customer repo test!!!
+
+  attr_reader :se
+
+  def setup
+    #@fake data =
+
+    @se = Minitest::Mock.new
+  end
+
+  #delete this:
   def transaction_parser
     TransactionParser.new.call("./data/transactions.csv")
   end
 
+  #delete this:
   def sales_engine
     SalesEngine.new
   end
 
   def transaction_repo
-    TransactionRepository.new(transaction_parser, sales_engine)
+    TransactionRepository.new(@fake_data, @se)
+  end
+
+  def test_it_knows_its_parent
+    engine = SalesEngine.new
+    repo = CustomerRepository.new(@fake_data, engine)
+    assert_equal engine, repo.sales_engine
   end
 
   def test_all
@@ -49,7 +68,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_find_by_credit_card_expiration_date
-    parser = TransactionParser.new.call("./data/fake_transactions.csv")
+    parser = TransactionParser.call("./data/fake_transactions.csv")
     transaction_repository = TransactionRepository.new(parser, sales_engine)
     assert_equal "56", transaction_repository.find_by_credit_card_expiration_date("2016-03-15").invoice_id
   end

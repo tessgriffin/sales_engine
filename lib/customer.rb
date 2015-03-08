@@ -9,4 +9,8 @@ class Customer
     @updated_at = updated_at
     @repo = repo
   end
+
+  def invoices(id)
+    @repo.find_invoices(id)
+  end
 end
