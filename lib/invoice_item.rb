@@ -33,4 +33,8 @@ class InvoiceItem
   def invoice
     repo.find_invoice(invoice_id)
   end
+
+  def item
+    repo.find_item(item_id)
+  end
 end

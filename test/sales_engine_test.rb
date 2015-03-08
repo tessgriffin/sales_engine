@@ -48,13 +48,6 @@ class SalesEngineTest < Minitest::Test
     assert engine.transaction_repository
   end
 
-  def test_it_can_find_items_by_merchant_id
-    engine = SalesEngine.new
-    engine.startup
-    items = engine.find_items_by_merchant_id("2")
-    assert_equal 38, items.count
-  end
-
   def test_it_can_find_invoices_by_customer_id
     engine = SalesEngine.new
     engine.startup
@@ -102,6 +95,20 @@ class SalesEngineTest < Minitest::Test
     engine.startup
     invoice_items = engine.find_invoice_items_by_invoice_id("1")
     assert_equal 8, invoice_items.count
+  end
+
+  def test_it_can_find_items_by_id
+    engine = SalesEngine.new
+    engine.startup
+    item = engine.find_item_by_id("2")
+    assert_equal "Item Autem Minima", item.name
+  end
+
+  def test_it_can_find_items_by_merchant_id
+    engine = SalesEngine.new
+    engine.startup
+    items = engine.find_items_by_merchant_id("2")
+    assert_equal 38, items.count
   end
 
   def test_it_can_find_items_by_invoice_id

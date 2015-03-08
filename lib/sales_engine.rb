@@ -13,7 +13,6 @@ require_relative 'transaction_repository'
 
 
 class SalesEngine
-
   attr_reader :customer_repository, :invoice_items_repository, :invoice_repository, :item_repository, :merchant_repository, :transaction_repository
 
   def initialize
@@ -45,10 +44,6 @@ class SalesEngine
     @transaction_repository = TransactionRepository.new(transaction_data, self)
   end
 
-  def find_items_by_merchant_id(id)
-    @item_repository.find_all_by_merchant_id(id)
-  end
-
   def find_invoices_by_customer_id(id)
     @invoice_repository.find_all_by_customer_id(id)
   end
@@ -77,6 +72,14 @@ class SalesEngine
 
   def find_invoice_items_by_invoice_id(id)
     @invoice_items_repository.find_all_by_invoice_id(id)
+  end
+
+  def find_item_by_id(id)
+    @item_repository.find_by_id(id)
+  end
+
+  def find_items_by_merchant_id(id)
+    @item_repository.find_all_by_merchant_id(id)
   end
 
   def find_items_by_invoice_id(id)
