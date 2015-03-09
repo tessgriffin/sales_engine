@@ -47,18 +47,18 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_knows_its_parent
-    engine = SalesEngine.new
+    engine = SalesEngine.new("file")
     repo = MerchantRepository.new(@fake_data, engine)
     assert_equal engine, repo.sales_engine
   end
 
   def test_all
-    repo = MerchantRepository.new(@fake_data, SalesEngine.new)
+    repo = MerchantRepository.new(@fake_data, SalesEngine.new("file"))
     assert_equal repo.merchants, repo.all
   end
 
   def test_random_one
-    repo = MerchantRepository.new(@fake_data, SalesEngine.new)
+    repo = MerchantRepository.new(@fake_data, SalesEngine.new("file"))
     assert_equal Merchant, repo.random.class
   end
 
