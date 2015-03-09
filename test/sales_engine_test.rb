@@ -118,11 +118,11 @@ class SalesEngineTest < Minitest::Test
     assert_equal 2, item.count
   end
 
-  def test_it_can_find_customer_by_invoice_id
+  def test_it_can_find_customer_by_id
     engine = SalesEngine.new
     engine.startup
-    customer = engine.find_customer_by_invoice_id("9")
-    assert_equal "Osinski", customer.last_name
+    customer = engine.find_customer_by_id("9")
+    assert_equal "Fadel", customer.last_name
   end
 
   def test_it_can_find_merchant_by_invoice_id
