@@ -18,7 +18,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_it_has_an_invoice_items_repo_when_started_up
-    skip
     engine = SalesEngine.new
     engine.startup
     assert engine.invoice_items_repository
