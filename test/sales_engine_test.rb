@@ -45,7 +45,7 @@ class SalesEngineTest < Minitest::Test
   def test_it_can_find_invoices_by_customer_id
     engine = SalesEngine.new("./data/")
     engine.startup
-    invoices = engine.find_invoices_by_customer_id("3")
+    invoices = engine.find_invoices_by_customer_id(3)
     assert_equal 4, invoices.count
   end
 
@@ -53,20 +53,20 @@ class SalesEngineTest < Minitest::Test
     engine = SalesEngine.new("./data/")
     engine.startup
     invoice = engine.find_invoice_by_transaction_id(3)
-    assert_equal "33", invoice.merchant_id
+    assert_equal 33, invoice.merchant_id
   end
 
   def test_it_can_find_invoice_by_id
     engine = SalesEngine.new("./data/")
     engine.startup
     invoice = engine.find_invoice_by_id(1)
-    assert_equal "26", invoice.merchant_id
+    assert_equal 26, invoice.merchant_id
   end
 
   def test_it_can_find_invoices_by_merchant_id
     engine = SalesEngine.new("./data/")
     engine.startup
-    invoices = engine.find_invoices_by_merchant_id("26")
+    invoices = engine.find_invoices_by_merchant_id(26)
     assert_equal 48, invoices.count
   end
 
