@@ -1,8 +1,10 @@
+require 'bigdecimal'
+require 'bigdecimal/util'
 class Merchant
   attr_reader :id, :name, :created_at, :updated_at, :repo
 
   def initialize(id, name, created_at, updated_at, repo)
-    @id = id
+    @id = id.to_i
     @name = name
     @created_at = created_at
     @updated_at = updated_at
@@ -18,6 +20,7 @@ class Merchant
   end
 
   def revenue
-    invoices.map(&:revenue).reduce(0, :+)
+    output = invoices.map(&:revenue).reduce(0, :+)
+    (BigDecimal.new(output) / 100).to_digits
   end
 end

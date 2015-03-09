@@ -8,31 +8,31 @@ class MerchantRepositoryTest < Minitest::Test
   def setup
     @fake_data = [
       {
-        "id" => "1",
+        "id" => 1,
         "name" => "Joe", 
         "created_at" => "2012", 
         "updated_at" => "2013"
       },
       {
-        "id" => "2",
+        "id" => 2,
         "name" => "Jane", 
         "created_at" => "2013", 
         "updated_at" => "2014"
       },
       {
-        "id" => "3",
+        "id" => 3,
         "name" => "Bill", 
         "created_at" => "2012", 
         "updated_at" => "2013"
       },
       {
-        "id" => "4",
+        "id" => 4,
         "name" => "Nancy", 
         "created_at" => "2012", 
         "updated_at" => "2013"
       },
       {
-        "id" => "5",
+        "id" => 5,
         "name" => "Spock", 
         "created_at" => "2012", 
         "updated_at" => "2013"
@@ -63,11 +63,11 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_find_by_id
-    assert_equal "Joe", merchant_repo.find_by_id("1").name
+    assert_equal "Joe", merchant_repo.find_by_id(1).name
   end
 
   def test_find_by_name
-    assert_equal "5", merchant_repo.find_by_name("Spock").id
+    assert_equal 5, merchant_repo.find_by_name("Spock").id
   end
 
   def test_find_by_created_at
@@ -79,7 +79,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_id
-    assert_equal 1, merchant_repo.find_all_by_id("2").count
+    assert_equal 1, merchant_repo.find_all_by_id(2).count
   end
 
   def test_find_all_by_name
@@ -97,16 +97,16 @@ class MerchantRepositoryTest < Minitest::Test
   def test_it_can_talk_to_parent_for_items
     parent = Minitest::Mock.new
     repo = MerchantRepository.new(@fake_data, parent)
-    parent.expect(:find_items_by_merchant_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_items("1")
+    parent.expect(:find_items_by_merchant_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_items(1)
     parent.verify
   end
 
   def test_it_can_talk_to_parent_for_invoices
     parent = Minitest::Mock.new
     repo = MerchantRepository.new(@fake_data, parent)
-    parent.expect(:find_invoices_by_merchant_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_invoices("1")
+    parent.expect(:find_invoices_by_merchant_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_invoices(1)
     parent.verify
   end
 end

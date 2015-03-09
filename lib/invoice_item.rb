@@ -20,7 +20,7 @@ class InvoiceItem
     updated_at,
     repo
   )
-    @id = id
+    @id = id.to_i
     @item_id = item_id
     @invoice_id = invoice_id
     @quantity = quantity.to_i
