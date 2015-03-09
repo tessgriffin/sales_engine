@@ -2,7 +2,6 @@ require_relative 'test_helper'
 require_relative '../lib/customer_parser'
 
 class CustomerParserTest < Minitest::Test
-
   def test_it_exists
     assert CustomerParser
   end
@@ -16,5 +15,4 @@ class CustomerParserTest < Minitest::Test
     output = CustomerParser.call("./data/customers.csv")
     assert_equal 1000, output.count
   end
-
 end

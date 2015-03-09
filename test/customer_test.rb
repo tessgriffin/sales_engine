@@ -43,5 +43,4 @@ class CustomerTest < Minitest::Test
     assert_equal [1, 2], customer.invoices
     parent.verify
   end
-
 end
