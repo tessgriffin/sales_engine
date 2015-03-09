@@ -22,7 +22,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_knows_its_parent
-    engine = SalesEngine.new
+    engine = SalesEngine.new("file")
     repo = CustomerRepository.new(@fake_data, engine)
     assert_equal engine, repo.sales_engine
   end

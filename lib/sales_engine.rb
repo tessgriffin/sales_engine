@@ -13,34 +13,48 @@ require_relative 'transaction_repository'
 
 
 class SalesEngine
-  attr_reader :customer_repository, :invoice_items_repository, :invoice_repository, :item_repository, :merchant_repository, :transaction_repository
+  attr_reader :customer_repository, :invoice_items_repository, :invoice_repository, :item_repository, :merchant_repository, :transaction_repository, :filepath
 
-  def initialize
-    @customer_repository = customer_repository
-    @invoice_items_repository = invoice_items_repository
-    @invoice_repository = invoice_repository
-    @item_repository = item_repository
-    @merchant_repository = merchant_repository
-    @transaction_repository = transaction_repository
+  def initialize(filepath)
+    @filepath = filepath
   end
 
   def startup
-    customer_data = CustomerParser.call("./data/customers.csv")
+    initialize_merchant_repository
+    initialize_customer_repository
+    initialize_invoice_items_repository
+    initialize_invoice_repository
+    initialize_item_repository
+    initialize_transaction_repository
+  end
+
+  def initialize_merchant_repository
+    data = MerchantParser.call("#{@filepath}/merchants.csv")
+    @merchant_repository = MerchantRepository.new(data, self)
+  end
+
+  def initialize_customer_repository
+    customer_data = CustomerParser.call("#{@filepath}/customers.csv")
     @customer_repository = CustomerRepository.new(customer_data, self)
+  end
 
-    invoice_items_data = InvoiceItemsParser.call("./data/invoice_items.csv")
+  def initialize_invoice_items_repository
+    invoice_items_data = InvoiceItemsParser.call("#{@filepath}/invoice_items.csv")
     @invoice_items_repository = InvoiceItemsRepository.new(invoice_items_data, self)
+  end
 
-    invoice_data = InvoiceParser.call("./data/invoices.csv")
+  def initialize_invoice_repository
+    invoice_data = InvoiceParser.call("#{@filepath}/invoices.csv")
     @invoice_repository = InvoiceRepository.new(invoice_data, self)
+  end
 
-    item_data = ItemParser.call("./data/items.csv")
+  def initialize_item_repository
+    item_data = ItemParser.call("#{@filepath}/items.csv")
     @item_repository = ItemRepository.new(item_data, self)
+  end
 
-    merchant_data = MerchantParser.call("./data/merchants.csv")
-    @merchant_repository = MerchantRepository.new(merchant_data, self)
-
-    transaction_data = TransactionParser.call("./data/transactions.csv")
+  def initialize_transaction_repository
+    transaction_data = TransactionParser.call("#{@filepath}/transactions.csv")
     @transaction_repository = TransactionRepository.new(transaction_data, self)
   end
 
