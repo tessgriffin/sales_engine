@@ -125,17 +125,10 @@ class SalesEngineTest < Minitest::Test
     assert_equal "Fadel", customer.last_name
   end
 
-  def test_it_can_find_merchant_by_invoice_id
-    engine = SalesEngine.new
-    engine.startup
-    merchant = engine.find_merchant_by_invoice_id("1")
-    assert_equal "Balistreri, Schaefer and Kshlerin", merchant.name
-  end
-
   def test_it_can_find_merchant_by_id
     engine = SalesEngine.new
     engine.startup
-    merchant = engine.find_merchant_by_id("1")
+    merchant = engine.find_merchant_by_id(1)
     assert_equal "Schroeder-Jerde", merchant.name
   end
 end
