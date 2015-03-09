@@ -46,4 +46,30 @@ class MerchantTest < Minitest::Test
     assert_equal [1, 2], merchant.invoices
     parent.verify
   end
+
+  def test_find_revenue_for_merchant
+    invoices = [
+      invoice_with_revenue(5),
+      invoice_with_revenue(10),
+    ]
+    repo = repository_with_invoices(invoices)
+    merchant = Merchant.new(nil, nil, nil, nil, repo)
+    assert_equal 15, merchant.revenue
+  end
+
+  def invoice_with_revenue(revenue)
+    invoice = Object.new
+    invoice.define_singleton_method(:revenue) do 
+      revenue
+    end
+    invoice
+  end
+
+  def repository_with_invoices(invoices)
+    repository = Object.new
+    repository.define_singleton_method(:find_invoices) do |*|
+      invoices
+    end
+    repository
+  end
 end

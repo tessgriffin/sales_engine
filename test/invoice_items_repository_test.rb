@@ -7,11 +7,11 @@ class InvoiceItemsRepositoryTest < Minitest::Test
 
   def setup
     @fake_data = [
-      {"id" => "1","item_id" => "539", "invoice_id" => "13635", "quantity" => "1", "unit_price" => "75107", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
-      {"id" => "2","item_id" => "528", "invoice_id" => "13635", "quantity" => "1", "unit_price" => "75106", "created_at" => "2013", "updated_at" => "2014", "repo" => "repo"},
-      {"id" => "3","item_id" => "523", "invoice_id" => "13635", "quantity" => "1", "unit_price" => "75106", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
-      {"id" => "4","item_id" => "535", "invoice_id" => "13635", "quantity" => "1", "unit_price" => "75106", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
-      {"id" => "5","item_id" => "529", "invoice_id" => "13635", "quantity" => "1", "unit_price" => "75106", "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"}
+      {"id" => "1","item_id" => "539", "invoice_id" => "13635", "quantity" => 1, "unit_price" => 75107, "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
+      {"id" => "2","item_id" => "528", "invoice_id" => "13635", "quantity" => 1, "unit_price" => 75106, "created_at" => "2013", "updated_at" => "2014", "repo" => "repo"},
+      {"id" => "3","item_id" => "523", "invoice_id" => "13635", "quantity" => 1, "unit_price" => 75106, "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
+      {"id" => "4","item_id" => "535", "invoice_id" => "13635", "quantity" => 1, "unit_price" => 75106, "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"},
+      {"id" => "5","item_id" => "529", "invoice_id" => "13635", "quantity" => 1, "unit_price" => 75106, "created_at" => "2012", "updated_at" => "2013", "repo" => "repo"}
       ]
 
     @se = Minitest::Mock.new
@@ -60,11 +60,11 @@ class InvoiceItemsRepositoryTest < Minitest::Test
   end 
 
   def test_find_by_quantity
-    assert_equal "1", invoice_items_repo.find_by_quantity("1").id
+    assert_equal "1", invoice_items_repo.find_by_quantity(1).id
   end 
 
   def test_find_by_unit_price
-    assert_equal "1", invoice_items_repo.find_by_unit_price("75107").id
+    assert_equal "1", invoice_items_repo.find_by_unit_price(75107).id
   end       
 
   def test_find_by_created_at
@@ -92,11 +92,11 @@ class InvoiceItemsRepositoryTest < Minitest::Test
   end 
 
   def test_find_all_by_quantity
-    assert_equal 5, invoice_items_repo.find_all_by_quantity("1").count
+    assert_equal 5, invoice_items_repo.find_all_by_quantity(1).count
   end 
 
   def test_find_all_by_unit_price
-    assert_equal 1, invoice_items_repo.find_all_by_unit_price("75107").count
+    assert_equal 1, invoice_items_repo.find_all_by_unit_price(75107).count
   end       
 
   def test_find_all_by_created_at

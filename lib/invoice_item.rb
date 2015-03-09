@@ -23,8 +23,8 @@ class InvoiceItem
     @id = id
     @item_id = item_id
     @invoice_id = invoice_id
-    @quantity = quantity
-    @unit_price = unit_price
+    @quantity = quantity.to_i
+    @unit_price = unit_price.to_i
     @created_at = created_at
     @updated_at = updated_at
     @repo = repo
@@ -36,5 +36,9 @@ class InvoiceItem
 
   def item
     repo.find_item(item_id)
+  end
+
+  def revenue
+    quantity * unit_price
   end
 end

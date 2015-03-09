@@ -11,23 +11,27 @@ class Invoice
     @repo = repo
   end
 
-  def transactions(id)
+  def transactions
     repo.find_transactions(id)
   end
 
-  def invoice_items(id)
+  def invoice_items
     repo.find_invoice_items(id)
   end
 
-  def items(id)
+  def items
     repo.find_items(id)
   end
 
-  def customer(id)
+  def customer
     repo.find_customer(id)
   end
 
-  def merchant(id)
+  def merchant
     repo.find_merchant(id)
+  end
+
+  def revenue
+    invoice_items.map(&:revenue).reduce(0, :+)
   end
 end
