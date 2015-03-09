@@ -13,6 +13,10 @@ class CustomerRepository
     @sales_engine = sales_engine
   end
 
+  def inspect
+    "#<#{self.class} #{@customers.size} rows>"
+  end
+
   def all
     @customers
   end

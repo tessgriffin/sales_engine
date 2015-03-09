@@ -20,6 +20,10 @@ class TransactionRepository
     @sales_engine = sales_engine
   end
 
+  def inspect
+    "#<#{self.class} #{@transactions.size} rows>"
+  end
+
   def all
     transactions
   end
