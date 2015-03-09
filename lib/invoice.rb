@@ -40,11 +40,11 @@ class Invoice
   end
 
   def customer
-    repo.find_customer(id)
+    repo.find_customer(customer_id)
   end
 
   def merchant
-    repo.find_merchant(id)
+    repo.find_merchant(merchant_id)
   end
 
   def revenue

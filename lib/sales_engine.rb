@@ -89,9 +89,8 @@ class SalesEngine
     end
   end
 
-  def find_customer_by_invoice_id(id)
-    customer = @invoice_repository.find_by_id(id)
-    @customer_repository.find_by_id(customer.customer_id)
+  def find_customer_by_id(id)
+    @customer_repository.find_by_id(id)
   end
 
   def find_merchant_by_invoice_id(id)

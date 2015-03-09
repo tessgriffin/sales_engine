@@ -138,11 +138,10 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_can_talk_to_parent_for_customer
-    skip
     parent = Minitest::Mock.new
     repo = InvoiceRepository.new(@fake_data, parent)
-    parent.expect(:find_transactions_by_invoice_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_transactions("1")
+    parent.expect(:find_customer_by_id, [1, 2], ["1"])
+    assert_equal [1, 2], repo.find_customer("1")
     parent.verify
   end
 
