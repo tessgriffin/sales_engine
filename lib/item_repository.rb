@@ -19,6 +19,10 @@ class ItemRepository
     @sales_engine = sales_engine
   end
 
+  def inspect
+    "#<#{self.class} #{@items.size} rows>"
+  end
+
   def all
     @items
   end
