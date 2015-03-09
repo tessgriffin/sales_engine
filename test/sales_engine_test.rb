@@ -15,7 +15,7 @@ class SalesEngineTest < Minitest::Test
   def test_it_has_an_invoice_items_repo_when_started_up
     engine = SalesEngine.new("./data/")
     engine.startup
-    assert engine.invoice_items_repository
+    assert engine.invoice_item_repository
   end
 
   def test_it_has_an_invoice_repo_when_started_up
@@ -80,14 +80,14 @@ class SalesEngineTest < Minitest::Test
   def test_it_can_find_invoice_items_by_item_id
     engine = SalesEngine.new("./data/")
     engine.startup
-    invoice_items = engine.find_invoice_items_by_item_id("539")
+    invoice_items = engine.find_invoice_items_by_item_id(539)
     assert_equal 7, invoice_items.count
   end
 
   def test_it_can_find_invoice_items_by_invoice_id
     engine = SalesEngine.new("./data/")
     engine.startup
-    invoice_items = engine.find_invoice_items_by_invoice_id("1")
+    invoice_items = engine.find_invoice_items_by_invoice_id(1)
     assert_equal 8, invoice_items.count
   end
 
@@ -108,7 +108,7 @@ class SalesEngineTest < Minitest::Test
   def test_it_can_find_items_by_invoice_id
     engine = SalesEngine.new("./data/")
     engine.startup
-    item = engine.find_items_by_invoice_id("4")
+    item = engine.find_items_by_invoice_id(4)
     assert_equal 2, item.count
   end
 

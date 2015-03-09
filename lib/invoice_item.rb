@@ -21,8 +21,8 @@ class InvoiceItem
     repo
   )
     @id = id.to_i
-    @item_id = item_id
-    @invoice_id = invoice_id
+    @item_id = item_id.to_i
+    @invoice_id = invoice_id.to_i
     @quantity = quantity.to_i
     @unit_price = unit_price.to_i
     @created_at = created_at

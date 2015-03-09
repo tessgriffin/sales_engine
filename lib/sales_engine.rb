@@ -1,7 +1,7 @@
 require_relative 'customer_parser'
 require_relative 'customer_repository'
 require_relative 'invoice_items_parser'
-require_relative 'invoice_items_repository'
+require_relative 'invoice_item_repository'
 require_relative 'invoice_parser'
 require_relative 'invoice_repository'
 require_relative 'item_parser'
@@ -13,7 +13,7 @@ require_relative 'transaction_repository'
 
 
 class SalesEngine
-  attr_reader :customer_repository, :invoice_items_repository, :invoice_repository, :item_repository, :merchant_repository, :transaction_repository, :filepath
+  attr_reader :customer_repository, :invoice_item_repository, :invoice_repository, :item_repository, :merchant_repository, :transaction_repository, :filepath
 
   def initialize(filepath)
     @filepath = filepath
@@ -22,7 +22,7 @@ class SalesEngine
   def startup
     initialize_merchant_repository
     initialize_customer_repository
-    initialize_invoice_items_repository
+    initialize_invoice_item_repository
     initialize_invoice_repository
     initialize_item_repository
     initialize_transaction_repository
@@ -38,9 +38,9 @@ class SalesEngine
     @customer_repository = CustomerRepository.new(customer_data, self)
   end
 
-  def initialize_invoice_items_repository
+  def initialize_invoice_item_repository
     invoice_items_data = InvoiceItemsParser.call("#{@filepath}/invoice_items.csv")
-    @invoice_items_repository = InvoiceItemsRepository.new(invoice_items_data, self)
+    @invoice_item_repository = InvoiceItemRepository.new(invoice_items_data, self)
   end
 
   def initialize_invoice_repository
@@ -81,11 +81,11 @@ class SalesEngine
   end
 
   def find_invoice_items_by_item_id(id)
-    @invoice_items_repository.find_all_by_item_id(id)
+    @invoice_item_repository.find_all_by_item_id(id)
   end
 
   def find_invoice_items_by_invoice_id(id)
-    @invoice_items_repository.find_all_by_invoice_id(id)
+    @invoice_item_repository.find_all_by_invoice_id(id)
   end
 
   def find_item_by_id(id)
@@ -97,7 +97,7 @@ class SalesEngine
   end
 
   def find_items_by_invoice_id(id)
-    items = @invoice_items_repository.find_all_by_invoice_id(id)
+    items = @invoice_item_repository.find_all_by_invoice_id(id)
     items.map do |item|
       @item_repository.find_by_id(item.item_id)
     end
