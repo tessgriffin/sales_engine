@@ -16,4 +16,8 @@ class Merchant
   def invoices
     repo.find_invoices(id)
   end
+
+  def revenue
+    invoices.map(&:revenue).reduce(0, :+)
+  end
 end

@@ -40,4 +40,33 @@ class InvoiceTest < Minitest::Test
     invoice = Invoice.new("1", "customer_id", "merchant_id", "status", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", "repository")
     assert_equal "repository", invoice.repo
   end
+
+  def test_revenue
+    invoice_items = [
+      invoice_item_with_revenue(5),
+      invoice_item_with_revenue(10),
+    ]
+    repo = repository_with_invoice_items(invoice_items)
+    invoice = Invoice.new(nil, nil, nil, nil, nil, nil, repo)
+
+    assert_equal 15, invoice.revenue
+  end
+
+  private
+
+  def repository_with_invoice_items(invoice_items)
+    repository = Object.new
+    repository.define_singleton_method(:find_invoice_items) do |*|
+      invoice_items
+    end
+    repository
+  end
+
+  def invoice_item_with_revenue(revenue)
+    invoice_item = Object.new
+    invoice_item.define_singleton_method(:revenue) do
+      revenue
+    end
+    invoice_item
+  end
 end
