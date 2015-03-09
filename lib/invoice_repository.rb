@@ -116,6 +116,6 @@ class InvoiceRepository
   end
 
   def find_merchant(id)
-    sales_engine.find_merchant_by_invoice_id(id)
+    sales_engine.find_merchant_by_id(id)
   end
 end
