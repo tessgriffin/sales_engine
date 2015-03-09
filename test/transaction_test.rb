@@ -45,4 +45,12 @@ class TransactionTest < Minitest::Test
     transaction = Transaction.new("1", "invoice_id", "credit_card_number", "expiration", "result", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", "repository")
     assert_equal "repository", transaction.repo
   end
+
+  def test_it_can_talk_to_parent_invoice_method
+    parent = Minitest::Mock.new
+    transaction = Transaction.new("1", "invoice_id", "credit_card_number", "expiration", "result", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", parent)
+    parent.expect(:find_invoice, [1, 2], ["invoice_id"])
+    assert_equal [1, 2], transaction.invoice
+    parent.verify
+  end
 end

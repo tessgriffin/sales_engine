@@ -125,4 +125,12 @@ class TransactionRepositoryTest < Minitest::Test
   def test_find_all_by_updated_at
     assert_equal 1, transaction_repo.find_all_by_updated_at("2014").count
   end
+
+  def test_it_can_talk_to_parent_for_invoices
+    parent = Minitest::Mock.new
+    repo = TransactionRepository.new(@fake_data, parent)
+    parent.expect(:find_invoice_by_id, [1, 2], ["56"])
+    assert_equal [1, 2], repo.find_invoice("56")
+    parent.verify
+  end
 end
