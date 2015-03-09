@@ -66,11 +66,10 @@ class InvoiceTest < Minitest::Test
   end
 
   def test_it_can_talk_to_parent_customer_method
-    skip
     parent = Minitest::Mock.new
     invoice = Invoice.new("1", "customer_id", "merchant_id", "status", "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", parent)
-    parent.expect(:find_transactions, [1, 2], ["1"])
-    assert_equal [1, 2], invoice.transactions
+    parent.expect(:find_customer, [1, 2], ["customer_id"])
+    assert_equal [1, 2], invoice.customer
     parent.verify
   end
 
