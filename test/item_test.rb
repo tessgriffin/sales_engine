@@ -21,9 +21,9 @@ class ItemsTest < Minitest::Test
     assert_equal "Description", item.description
   end
 
-  def test_it_has_a_unit_price
+  def test_it_has_a_converted_unit_price
     item = Item.new(1, "Item Name", "Description", 75107, 1, "2012-03-27 14:53:59 UTC", "2012-03-27 14:53:59 UTC", "repo")
-    assert_equal 75107, item.unit_price
+    assert_equal BigDecimal.new("751.07"), item.unit_price
   end
 
   def test_it_has_a_merchant_id
