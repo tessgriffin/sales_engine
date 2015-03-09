@@ -18,7 +18,7 @@ class Invoice
     updated_at,
     repo
   )
-    @id = id
+    @id = id.to_i
     @customer_id = customer_id
     @merchant_id = merchant_id
     @status = status

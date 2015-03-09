@@ -8,8 +8,8 @@ class TransactionRepositoryTest < Minitest::Test
   def setup
     @fake_data = [
       {
-        "id" => "1",
-        "invoice_id" => "56",
+        "id" => 1,
+        "invoice_id" => 56,
         "credit_card_number" => "4565654576890987",
         "credit_card_expiration_date" => "2016",
         "result" => "success",
@@ -17,8 +17,8 @@ class TransactionRepositoryTest < Minitest::Test
         "updated_at" => "2013",
       },
       {
-        "id" => "2",
-        "invoice_id" => "85",
+        "id" => 2,
+        "invoice_id" => 85,
         "credit_card_number" => "4565654576890988",
         "credit_card_expiration_date" => "2016",
         "result" => "failure",
@@ -26,8 +26,8 @@ class TransactionRepositoryTest < Minitest::Test
         "updated_at" => "2014",
       },
       {
-        "id" => "3",
-        "invoice_id" => "187",
+        "id" => 3,
+        "invoice_id" => 187,
         "credit_card_number" => "4565654576890989",
         "credit_card_expiration_date" => "2016",
         "result" => "success",
@@ -35,8 +35,8 @@ class TransactionRepositoryTest < Minitest::Test
         "updated_at" => "2013",
       },
       {
-        "id" => "4",
-        "invoice_id" => "93",
+        "id" => 4,
+        "invoice_id" => 93,
         "credit_card_number" => "4565654576890980",
         "credit_card_expiration_date" => "2016",
         "result" => "success",
@@ -69,40 +69,40 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_find_by_id
-    assert_equal "4565654576890987", transaction_repo.find_by_id("1").credit_card_number
+    assert_equal "4565654576890987", transaction_repo.find_by_id(1).credit_card_number
   end
 
   def test_find_by_invoice_id
-    assert_equal "4565654576890987", transaction_repo.find_by_invoice_id("56").credit_card_number
+    assert_equal "4565654576890987", transaction_repo.find_by_invoice_id(56).credit_card_number
   end
 
   def test_find_by_credit_card_number
-    assert_equal "1", transaction_repo.find_by_credit_card_number("4565654576890987").id
+    assert_equal 1, transaction_repo.find_by_credit_card_number("4565654576890987").id
   end
 
   def test_find_by_credit_card_expiration_date
-    assert_equal "56", transaction_repo.find_by_credit_card_expiration_date("2016").invoice_id
+    assert_equal 56, transaction_repo.find_by_credit_card_expiration_date("2016").invoice_id
   end
 
   def test_find_by_result
-    assert_equal "1", transaction_repo.find_by_result("success").id
-    assert_equal "2", transaction_repo.find_by_result("failure").id
+    assert_equal 1, transaction_repo.find_by_result("success").id
+    assert_equal 2, transaction_repo.find_by_result("failure").id
   end
 
   def test_find_by_created_at
-    assert_equal "1", transaction_repo.find_by_created_at("2012").id
+    assert_equal 1, transaction_repo.find_by_created_at("2012").id
   end
 
   def test_find_by_updated_at
-    assert_equal "1", transaction_repo.find_by_updated_at("2013").id
+    assert_equal 1, transaction_repo.find_by_updated_at("2013").id
   end
 
   def test_find_all_by_id
-    assert_equal 1, transaction_repo.find_all_by_id("4").count
+    assert_equal 1, transaction_repo.find_all_by_id(4).count
   end
 
   def test_find_all_by_invoice_id
-    assert_equal 1, transaction_repo.find_all_by_invoice_id("187").count
+    assert_equal 1, transaction_repo.find_all_by_invoice_id(187).count
   end
 
   def test_find_all_by_credit_card_number
@@ -129,8 +129,8 @@ class TransactionRepositoryTest < Minitest::Test
   def test_it_can_talk_to_parent_for_invoices
     parent = Minitest::Mock.new
     repo = TransactionRepository.new(@fake_data, parent)
-    parent.expect(:find_invoice_by_id, [1, 2], ["56"])
-    assert_equal [1, 2], repo.find_invoice("56")
+    parent.expect(:find_invoice_by_id, [1, 2], [56])
+    assert_equal [1, 2], repo.find_invoice(56)
     parent.verify
   end
 end

@@ -7,11 +7,11 @@ class CustomerRepositoryTest < Minitest::Test
 
   def setup
     @fake_data = [
-      {"id" => "1","first_name" => "Joe","last_name" => "Johnson", "created_at" => "2012", "updated_at" => "2013"},
-      {"id" => "2","first_name" => "Jane","last_name" => "Ondricka", "created_at" => "2013", "updated_at" => "2014"},
-      {"id" => "3","first_name" => "Bill","last_name" => "Toy", "created_at" => "2012", "updated_at" => "2013"},
-      {"id" => "4","first_name" => "Nancy","last_name" => "Son", "created_at" => "2012", "updated_at" => "2013"},
-      {"id" => "5","first_name" => "Spock","last_name" => "Bob", "created_at" => "2012", "updated_at" => "2013"}
+      {"id" => 1,"first_name" => "Joe","last_name" => "Johnson", "created_at" => "2012", "updated_at" => "2013"},
+      {"id" => 2,"first_name" => "Jane","last_name" => "Ondricka", "created_at" => "2013", "updated_at" => "2014"},
+      {"id" => 3,"first_name" => "Bill","last_name" => "Toy", "created_at" => "2012", "updated_at" => "2013"},
+      {"id" => 4,"first_name" => "Nancy","last_name" => "Son", "created_at" => "2012", "updated_at" => "2013"},
+      {"id" => 5,"first_name" => "Spock","last_name" => "Bob", "created_at" => "2012", "updated_at" => "2013"}
       ]
 
     @se = Minitest::Mock.new
@@ -38,11 +38,11 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_find_by_id
-    assert_equal "Johnson", customer_repo.find_by_id("1").last_name
+    assert_equal "Johnson", customer_repo.find_by_id(1).last_name
   end
 
   def test_find_by_first_name
-    assert_equal "5", customer_repo.find_by_first_name("Spock").id
+    assert_equal 5, customer_repo.find_by_first_name("Spock").id
   end
 
   def test_find_by_last_name
@@ -58,7 +58,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_find_all_by_id
-    assert_equal 1, customer_repo.find_all_by_id("2").count
+    assert_equal 1, customer_repo.find_all_by_id(2).count
   end
 
   def test_find_all_by_first_name
@@ -80,8 +80,8 @@ class CustomerRepositoryTest < Minitest::Test
   def test_it_can_talk_to_parent_for_invoices
     parent = Minitest::Mock.new
     repo = CustomerRepository.new(@fake_data, parent)
-    parent.expect(:find_invoices_by_customer_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_invoices("1")
+    parent.expect(:find_invoices_by_customer_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_invoices(1)
     parent.verify
   end
 end

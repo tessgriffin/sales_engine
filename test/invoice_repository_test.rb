@@ -9,33 +9,33 @@ class InvoiceRepositoryTest < Minitest::Test
   def setup
     @fake_data = [
       {
-        "id" => "1",
-        "customer_id" => "12",
-        "merchant_id" => "31",
+        "id" => 1,
+        "customer_id" => 12,
+        "merchant_id" => 31,
         "status" => "shipped",
         "created_at" => "2012",
         "updated_at" => "2013",
       },
       {
-        "id" => "2",
-        "customer_id" => "14",
-        "merchant_id" => "35",
+        "id" => 2,
+        "customer_id" => 14,
+        "merchant_id" => 35,
         "status" => "shipped",
         "created_at" => "2012",
         "updated_at" => "2013",
       },
       {
-        "id" => "3",
-        "customer_id" => "11",
-        "merchant_id" => "38",
+        "id" => 3,
+        "customer_id" => 11,
+        "merchant_id" => 38,
         "status" => "not shipped",
         "created_at" => "2013",
         "updated_at" => "2014",
       },
       {
-        "id" => "4",
-        "customer_id" => "12",
-        "merchant_id" => "22",
+        "id" => 4,
+        "customer_id" => 12,
+        "merchant_id" => 22,
         "status" => "shipped",
         "created_at" => "2014",
         "updated_at" => "2015",
@@ -66,39 +66,39 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_find_by_id
-    assert_equal "not shipped", invoice_repo.find_by_id("3").status
+    assert_equal "not shipped", invoice_repo.find_by_id(3).status
   end
 
   def test_find_by_customer_id
-    assert_equal "31", invoice_repo.find_by_customer_id("12").merchant_id
+    assert_equal 31, invoice_repo.find_by_customer_id(12).merchant_id
   end
 
   def test_find_by_merchant_id
-    assert_equal "14", invoice_repo.find_by_merchant_id("35").customer_id
+    assert_equal 14, invoice_repo.find_by_merchant_id(35).customer_id
   end
 
   def test_find_by_status
-    assert_equal "3", invoice_repo.find_by_status("not shipped").id
+    assert_equal 3, invoice_repo.find_by_status("not shipped").id
   end
 
   def test_find_by_created_at
-    assert_equal "22", invoice_repo.find_by_created_at("2014").merchant_id
+    assert_equal 22, invoice_repo.find_by_created_at("2014").merchant_id
   end
 
   def test_find_by_updated_at
-    assert_equal "22", invoice_repo.find_by_updated_at("2015").merchant_id
+    assert_equal 22, invoice_repo.find_by_updated_at("2015").merchant_id
   end
 
   def test_find_all_by_id
-    assert_equal 1, invoice_repo.find_all_by_id("2").count
+    assert_equal 1, invoice_repo.find_all_by_id(2).count
   end
 
   def test_find_all_by_customer_id
-    assert_equal 2, invoice_repo.find_all_by_customer_id("12").count
+    assert_equal 2, invoice_repo.find_all_by_customer_id(12).count
   end
 
   def test_find_all_by_merchant_id
-    assert_equal 1, invoice_repo.find_all_by_merchant_id("31").count
+    assert_equal 1, invoice_repo.find_all_by_merchant_id(31).count
   end
 
   def test_find_all_by_status
@@ -116,40 +116,40 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_it_can_talk_to_parent_for_transactions
     parent = Minitest::Mock.new
     repo = InvoiceRepository.new(@fake_data, parent)
-    parent.expect(:find_transactions_by_invoice_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_transactions("1")
+    parent.expect(:find_transactions_by_invoice_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_transactions(1)
     parent.verify
   end
 
   def test_it_can_talk_to_parent_for_invoice_items
     parent = Minitest::Mock.new
     repo = InvoiceRepository.new(@fake_data, parent)
-    parent.expect(:find_invoice_items_by_invoice_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_invoice_items("1")
+    parent.expect(:find_invoice_items_by_invoice_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_invoice_items(1)
     parent.verify
   end
 
   def test_it_can_talk_to_parent_for_items
     parent = Minitest::Mock.new
     repo = InvoiceRepository.new(@fake_data, parent)
-    parent.expect(:find_items_by_invoice_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_items("1")
+    parent.expect(:find_items_by_invoice_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_items(1)
     parent.verify
   end
 
   def test_it_can_talk_to_parent_for_customer
     parent = Minitest::Mock.new
     repo = InvoiceRepository.new(@fake_data, parent)
-    parent.expect(:find_customer_by_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_customer("1")
+    parent.expect(:find_customer_by_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_customer(1)
     parent.verify
   end
 
   def test_it_can_talk_to_parent_for_merchant
     parent = Minitest::Mock.new
     repo = InvoiceRepository.new(@fake_data, parent)
-    parent.expect(:find_merchant_by_id, [1, 2], ["1"])
-    assert_equal [1, 2], repo.find_merchant("1")
+    parent.expect(:find_merchant_by_id, [1, 2], [1])
+    assert_equal [1, 2], repo.find_merchant(1)
     parent.verify
   end
 end

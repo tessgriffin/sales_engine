@@ -16,7 +16,7 @@ class Customer
     updated_at,
     repo
   )
-    @id = id
+    @id = id.to_i
     @first_name = first_name
     @last_name = last_name
     @created_at = created_at
