@@ -9,52 +9,52 @@ class ItemRepositoryTest < Minitest::Test
     @fake_data = [
       {
         "id" => 1,
-        "name" => "Joe", 
-        "description" => "Hello Item", 
-        "unit_price" => 75107, 
-        "merchant_id" => 1, 
-        "created_at" => "2012", 
-        "updated_at" => "2013", 
+        "name" => "Joe",
+        "description" => "Hello Item",
+        "unit_price" => 75107,
+        "merchant_id" => 1,
+        "created_at" => "2012",
+        "updated_at" => "2013",
         "repo" => "repo"
       },
       {
         "id" => 2,
-        "name" => "Jane", 
-        "description" => "Hello Item 2", 
-        "unit_price" => 75106, 
-        "merchant_id" => 1, 
-        "created_at" => "2013", 
-        "updated_at" => "2014", 
+        "name" => "Jane",
+        "description" => "Hello Item 2",
+        "unit_price" => 75106,
+        "merchant_id" => 1,
+        "created_at" => "2013",
+        "updated_at" => "2014",
         "repo" => "repo"
       },
       {
         "id" => 3,
-        "name" => "Bill", 
-        "description" => "Hello Item 3", 
-        "unit_price" => 75106, 
-        "merchant_id" => 1, 
-        "created_at" => "2012", 
-        "updated_at" => "2013", 
+        "name" => "Bill",
+        "description" => "Hello Item 3",
+        "unit_price" => 75106,
+        "merchant_id" => 1,
+        "created_at" => "2012",
+        "updated_at" => "2013",
         "repo" => "repo"
       },
       {
         "id" => 4,
-        "name" => "Nancy", 
-        "description" => "Hello Item 4", 
-        "unit_price" => 75106, 
-        "merchant_id" => 1, 
-        "created_at" => "2012", 
-        "updated_at" => "2013", 
+        "name" => "Nancy",
+        "description" => "Hello Item 4",
+        "unit_price" => 75106,
+        "merchant_id" => 1,
+        "created_at" => "2012",
+        "updated_at" => "2013",
         "repo" => "repo"
       },
       {
         "id" => 5,
-        "name" => "Spock", 
-        "description" => "Hello Item 5", 
-        "unit_price" => 75106, 
-        "merchant_id" => 1, 
-        "created_at" => "2012", 
-        "updated_at" => "2013", 
+        "name" => "Spock",
+        "description" => "Hello Item 5",
+        "unit_price" => 75106,
+        "merchant_id" => 1,
+        "created_at" => "2012",
+        "updated_at" => "2013",
         "repo" => "repo"
         },
       ]
@@ -84,27 +84,27 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_find_by_id
     assert_equal "Joe", item_repo.find_by_id(1).name
-  end  
+  end
 
   def test_find_by_id_where_id_does_not_exist
     assert_equal nil, item_repo.find_by_id(101)
-  end  
+  end
 
   def test_find_by_name
     assert_equal 2, item_repo.find_by_name("Jane").id
-  end 
+  end
 
   def test_find_by_description
     assert_equal 1, item_repo.find_by_description("Hello Item").id
-  end 
+  end
 
   def test_find_by_unit_price
-    assert_equal 2, item_repo.find_by_unit_price(75106).id
-  end   
+    assert_equal 2, item_repo.find_by_unit_price(BigDecimal.new("751.06")).id
+  end
 
   def test_find_by_merchant_id
     assert_equal 1, item_repo.find_by_merchant_id(1).id
-  end    
+  end
 
   def test_find_by_created_at
     assert_equal 1, item_repo.find_by_created_at("2012").id
@@ -112,31 +112,31 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_find_by_updated_at
     assert_equal 1, item_repo.find_by_updated_at("2013").id
-  end    
+  end
 
   def test_find_all_by_id
     assert_equal 1, item_repo.find_all_by_id(1).count
-  end  
+  end
 
   def test_find_all_by_id_where_id_does_not_exist
     assert_equal 0, item_repo.find_all_by_id(101).count
-  end  
+  end
 
   def test_find_all_by_name
     assert_equal 1, item_repo.find_all_by_name("Joe").count
-  end 
+  end
 
   def test_find_all_by_description
     assert_equal 1, item_repo.find_all_by_description("Hello Item 2").count
-  end 
+  end
 
   def test_find_all_by_unit_price
-    assert_equal 4, item_repo.find_all_by_unit_price(75106).count
-  end   
+    assert_equal 4, item_repo.find_all_by_unit_price(BigDecimal.new("751.06")).count
+  end
 
   def test_find_all_by_merchant_id
     assert_equal 5, item_repo.find_all_by_merchant_id(1).count
-  end    
+  end
 
   def test_find_all_by_created_at
     assert_equal 4, item_repo.find_all_by_created_at("2012").count

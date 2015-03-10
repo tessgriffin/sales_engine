@@ -1,19 +1,20 @@
 require 'bigdecimal'
+require 'bigdecimal/util'
 require_relative 'item'
 
 class ItemRepository
   attr_reader :items, :sales_engine
-  
+
   def initialize(parsed_data, sales_engine)
     @items = parsed_data.map do |item|
       Item.new(
-        item["id"], 
-        item["name"], 
-        item["description"], 
-        item["unit_price"], 
-        item["merchant_id"], 
-        item["created_at"], 
-        item["updated_at"], 
+        item["id"],
+        item["name"],
+        item["description"],
+        item["unit_price"],
+        item["merchant_id"],
+        item["created_at"],
+        item["updated_at"],
         self
         )
     end
@@ -54,7 +55,7 @@ class ItemRepository
     @items.find do |item|
       item.unit_price == input
     end
-  end  
+  end
 
   def find_by_merchant_id(input)
     @items.find do |item|
@@ -72,7 +73,7 @@ class ItemRepository
     @items.find do |item|
       item.updated_at == input
     end
-  end  
+  end
 
   def find_all_by_id(input)
     @items.find_all do |item|
@@ -96,7 +97,7 @@ class ItemRepository
     @items.find_all do |item|
       item.unit_price == input
     end
-  end  
+  end
 
   def find_all_by_merchant_id(input)
     @items.find_all do |item|
@@ -114,10 +115,10 @@ class ItemRepository
     @items.find_all do |item|
       item.updated_at == input
     end
-  end 
+  end
 
-  def find_invoice_items(id) 
-    sales_engine.find_invoice_items_by_item_id(id) 
+  def find_invoice_items(id)
+    sales_engine.find_invoice_items_by_item_id(id)
   end
 
   def find_merchant(merchant_id)
