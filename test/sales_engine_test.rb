@@ -7,7 +7,7 @@ class SalesEngineTest < Minitest::Test
     @engine.startup
   end
 
-def test_it_exists
+  def test_it_exists
     assert SalesEngine
   end
 
@@ -43,6 +43,20 @@ def test_it_exists
   def test_it_can_find_transactions_for_a_customer
     transactions = @engine.find_transactions_for_customer(1)
     assert_equal 7, transactions.count
+  end
+
+  def test_it_can_find_invoices_for_successful_transactions
+    transactions = @engine.find_transactions_for_customer(3)
+    assert_equal 7, transactions.count
+    invoices = @engine.find_invoices_for_successful_transactions(transactions)
+    assert_equal 3, invoices.count
+  end
+
+  def test_it_can_find_merchant_by_invoice
+    transactions = @engine.find_transactions_for_customer(3)
+    invoices = @engine.find_invoices_for_successful_transactions(transactions)
+    merchants = @engine.find_merchant_by_invoice(invoices)
+    assert_equal 86, merchants.first.id
   end
 
   def test_it_can_find_a_favorite_merchant
