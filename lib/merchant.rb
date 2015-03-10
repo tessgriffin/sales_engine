@@ -19,8 +19,16 @@ class Merchant
     repo.find_invoices(id)
   end
 
+  def successful_invoices
+    invoices.select do |invoice|
+      invoice.transactions.any? do |transaction|
+        transaction.result == "success"
+      end
+    end
+  end
+
   def revenue
-    output = invoices.map(&:revenue).reduce(0, :+)
-    (BigDecimal.new(output) / 100).to_digits
+    output = successful_invoices.map(&:revenue).reduce(0, :+)
+    (BigDecimal.new(output) / 100)
   end
 end
