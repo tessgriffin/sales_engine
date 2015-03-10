@@ -83,4 +83,8 @@ class MerchantRepository
   def find_invoices(id)
     @sales_engine.find_invoices_by_merchant_id(id)
   end
+
+  def find_favorite_customer(id)
+    @sales_engine.find_favorite_customer_for_merchant(id)
+  end
 end
