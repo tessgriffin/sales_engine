@@ -27,8 +27,15 @@ class Merchant
     end
   end
 
-  def revenue
-    output = successful_invoices.map(&:revenue).reduce(0, :+)
+  def successful_invoices_by_date(date)
+    return successful_invoices if date == nil
+    successful_invoices.select do |invoice|
+      Date.parse(invoice.created_at) == date
+    end
+  end
+
+  def revenue(date=nil)
+    output = successful_invoices_by_date(date).map(&:revenue).reduce(0, :+)
     (BigDecimal.new(output) / 100)
   end
 end
