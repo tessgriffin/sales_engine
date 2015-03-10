@@ -1,14 +1,9 @@
-require_relative 'customer_parser'
+require_relative 'parser'
 require_relative 'customer_repository'
-require_relative 'invoice_items_parser'
 require_relative 'invoice_item_repository'
-require_relative 'invoice_parser'
 require_relative 'invoice_repository'
-require_relative 'item_parser'
 require_relative 'item_repository'
-require_relative 'merchant_parser'
 require_relative 'merchant_repository'
-require_relative 'transaction_parser'
 require_relative 'transaction_repository'
 
 
@@ -29,32 +24,32 @@ class SalesEngine
   end
 
   def initialize_merchant_repository
-    data = MerchantParser.call("#{@filepath}/merchants.csv")
+    data = Parser.call("#{@filepath}/merchants.csv")
     @merchant_repository = MerchantRepository.new(data, self)
   end
 
   def initialize_customer_repository
-    customer_data = CustomerParser.call("#{@filepath}/customers.csv")
+    customer_data = Parser.call("#{@filepath}/customers.csv")
     @customer_repository = CustomerRepository.new(customer_data, self)
   end
 
   def initialize_invoice_item_repository
-    invoice_items_data = InvoiceItemsParser.call("#{@filepath}/invoice_items.csv")
+    invoice_items_data = Parser.call("#{@filepath}/invoice_items.csv")
     @invoice_item_repository = InvoiceItemRepository.new(invoice_items_data, self)
   end
 
   def initialize_invoice_repository
-    invoice_data = InvoiceParser.call("#{@filepath}/invoices.csv")
+    invoice_data = Parser.call("#{@filepath}/invoices.csv")
     @invoice_repository = InvoiceRepository.new(invoice_data, self)
   end
 
   def initialize_item_repository
-    item_data = ItemParser.call("#{@filepath}/items.csv")
+    item_data = Parser.call("#{@filepath}/items.csv")
     @item_repository = ItemRepository.new(item_data, self)
   end
 
   def initialize_transaction_repository
-    transaction_data = TransactionParser.call("#{@filepath}/transactions.csv")
+    transaction_data = Parser.call("#{@filepath}/transactions.csv")
     @transaction_repository = TransactionRepository.new(transaction_data, self)
   end
 

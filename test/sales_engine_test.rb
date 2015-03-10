@@ -7,7 +7,7 @@ class SalesEngineTest < Minitest::Test
     @engine.startup
   end
 
-  def test_it_exists
+def test_it_exists
     assert SalesEngine
   end
 
