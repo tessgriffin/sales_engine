@@ -64,6 +64,23 @@ class SalesEngineTest < Minitest::Test
     assert_equal "Balistreri, Schaefer and Kshlerin", merchant.name
   end
 
+  def test_it_can_find_transactions_for_merchant
+    transactions = @engine.find_transactions_for_merchant(8)
+    assert_equal 42, transactions.count
+  end
+
+  def test_it_can_find_customer_by_invoice
+    transactions = @engine.find_transactions_for_merchant(8)
+    invoices = @engine.find_invoices_for_successful_transactions(transactions)
+    customers = @engine.find_customer_by_invoice(invoices)
+    assert_equal 35, customers.count
+  end
+
+  def test_it_can_find_a_favorite_customer
+    customer = @engine.find_favorite_customer_for_merchant(8)
+    assert_equal "Toy", customer.last_name
+  end
+
   def test_it_can_find_invoices_by_transaction_id
     invoice = @engine.find_invoice_by_transaction_id(3)
     assert_equal 33, invoice.merchant_id

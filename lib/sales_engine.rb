@@ -85,6 +85,26 @@ class SalesEngine
     merchants.max_by{|x| merchants.count(x)}
   end
 
+  def find_transactions_for_merchant(id)
+    invoices = find_invoices_by_merchant_id(id)
+    invoices.flat_map do |invoice|
+      find_transactions_by_invoice_id(invoice.id)
+    end
+  end
+
+  def find_customer_by_invoice(invoices)
+    invoices.flat_map do |invoice|
+      find_customer_by_id(invoice.customer_id)
+    end
+  end
+
+  def find_favorite_customer_for_merchant(id)
+    transactions = find_transactions_for_merchant(id).flatten
+    invoices = find_invoices_for_successful_transactions(transactions)
+    customers = find_customer_by_invoice(invoices)
+    customers.max_by{|x| customers.count(x)}
+  end
+
   def find_invoice_by_transaction_id(id)
     transaction = @transaction_repository.find_by_id(id)
     invoice_id = transaction.invoice_id

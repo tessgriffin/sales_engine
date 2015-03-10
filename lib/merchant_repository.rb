@@ -99,4 +99,8 @@ class MerchantRepository
       merchants_revenue
     end.reverse.first(n)
   end
+  
+  def find_favorite_customer(id)
+    @sales_engine.find_favorite_customer_for_merchant(id)
+  end
 end

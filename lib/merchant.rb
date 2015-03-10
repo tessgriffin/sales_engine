@@ -38,4 +38,8 @@ class Merchant
     output = successful_invoices_by_date(date).map(&:revenue).reduce(0, :+)
     (BigDecimal.new(output) / 100)
   end
+
+  def favorite_customer
+    @repo.find_favorite_customer(id)
+  end
 end
