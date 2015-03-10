@@ -48,6 +48,7 @@ class MerchantTest < Minitest::Test
   end
 
   def test_find_revenue_for_merchant
+    skip
     invoices = [
       invoice_with_revenue(68175),
       invoice_with_revenue(50000),
