@@ -31,4 +31,8 @@ class Customer
   def transactions
     @repo.find_transactions_for_customer(id)
   end
+
+  def favorite_merchant
+    @repo.find_favorite_merchant(id)
+  end
 end

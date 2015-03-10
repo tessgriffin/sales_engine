@@ -92,4 +92,8 @@ class CustomerRepository
   def find_transactions_for_customer(id)
     @sales_engine.find_transactions_for_customer(id)
   end
+
+  def find_favorite_merchant(id)
+    @sales_engine.find_favorite_merchant_for_customer(id)
+  end
 end
