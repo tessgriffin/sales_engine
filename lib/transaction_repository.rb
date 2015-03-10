@@ -28,7 +28,7 @@ class TransactionRepository
   end
 
   def random
-    transactions.sample(1).first
+    transactions.sample
   end
 
   def find_by_id(input)

@@ -2,14 +2,14 @@ require_relative 'merchant'
 
 class MerchantRepository
   attr_reader :merchants, :sales_engine
-  
+
   def initialize(parsed_data, sales_engine)
     @merchants = parsed_data.map do |merchant|
       Merchant.new(
-        merchant["id"], 
-        merchant["name"], 
-        merchant["created_at"], 
-        merchant["updated_at"], 
+        merchant["id"],
+        merchant["name"],
+        merchant["created_at"],
+        merchant["updated_at"],
         self
         )
     end
@@ -25,7 +25,7 @@ class MerchantRepository
   end
 
   def random
-    @merchants.sample(1).first
+    @merchants.sample
   end
 
   def find_by_id(input)
@@ -74,7 +74,7 @@ class MerchantRepository
     @merchants.find_all do |merchant|
       merchant.updated_at == input
     end
-  end 
+  end
 
   def find_items(id)
     @sales_engine.find_items_by_merchant_id(id)

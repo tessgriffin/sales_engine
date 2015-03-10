@@ -30,7 +30,7 @@ class ItemRepository
   end
 
   def random
-    @items.sample(1).first
+    @items.sample
   end
 
   def find_by_id(input)

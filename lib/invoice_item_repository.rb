@@ -28,7 +28,7 @@ class InvoiceItemRepository
   end
 
   def random
-    @invoice_items.sample(1).first
+    @invoice_items.sample
   end
 
   def find_by_id(input)
