@@ -62,6 +62,14 @@ class SalesEngine
     @invoice_repository.find_all_by_customer_id(id)
   end
 
+  def find_transactions_for_customer(id)
+    invoices = @invoice_repository.find_all_by_customer_id(id)
+    transactions = invoices.map do |invoice|
+      find_transactions_by_invoice_id(invoice.id)
+    end
+    transactions
+  end
+
   def find_invoice_by_transaction_id(id)
     transaction = @transaction_repository.find_by_id(id)
     invoice_id = transaction.invoice_id
