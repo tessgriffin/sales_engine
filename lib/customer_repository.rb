@@ -88,4 +88,8 @@ class CustomerRepository
   def find_invoices(id)
     @sales_engine.find_invoices_by_customer_id(id)
   end
+
+  def find_transactions_for_customer(id)
+    @sales_engine.find_transactions_for_customer(id)
+  end
 end
