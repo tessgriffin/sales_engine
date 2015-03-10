@@ -1,4 +1,3 @@
-require_relative 'customer_parser'
 require_relative 'customer'
 
 class CustomerRepository
@@ -7,11 +6,11 @@ class CustomerRepository
   def initialize(parsed_data, sales_engine)
     @customers = parsed_data.map do |customer|
       Customer.new(
-        customer["id"], 
+        customer["id"],
         customer["first_name"],
-        customer["last_name"], 
+        customer["last_name"],
         customer["created_at"],
-        customer["updated_at"], 
+        customer["updated_at"],
         self
       )
     end

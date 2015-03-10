@@ -1,4 +1,3 @@
-require_relative 'invoice_parser'
 require_relative 'invoice'
 
 class InvoiceRepository

@@ -1,4 +1,3 @@
-require_relative 'transaction_parser'
 require_relative 'transaction'
 
 class TransactionRepository
