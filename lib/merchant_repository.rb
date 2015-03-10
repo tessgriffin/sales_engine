@@ -83,4 +83,20 @@ class MerchantRepository
   def find_invoices(id)
     @sales_engine.find_invoices_by_merchant_id(id)
   end
+
+  def revenue(date)
+    merchants_revenue = @merchants.flat_map do |merchant|
+      merchant.revenue(date)
+    end
+    merchants_revenue.reduce(0, :+)
+  end
+
+  def most_revenue(n)
+   merchants_revenue = @merchants.flat_map do |merchant|
+     merchant.revenue
+   end
+    @merchants.sort_by do |merchant|
+      merchants_revenue
+    end.reverse.first(n)
+  end
 end
