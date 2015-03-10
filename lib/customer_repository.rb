@@ -6,9 +6,14 @@ class CustomerRepository
 
   def initialize(parsed_data, sales_engine)
     @customers = parsed_data.map do |customer|
-      Customer.new(customer["id"], customer["first_name"],
-      customer["last_name"], customer["created_at"],
-      customer["updated_at"], self)
+      Customer.new(
+        customer["id"], 
+        customer["first_name"],
+        customer["last_name"], 
+        customer["created_at"],
+        customer["updated_at"], 
+        self
+      )
     end
     @sales_engine = sales_engine
   end
@@ -22,7 +27,7 @@ class CustomerRepository
   end
 
   def random
-    @customers.sample(1).first
+    @customers.sample
   end
 
   def find_by_id(input)

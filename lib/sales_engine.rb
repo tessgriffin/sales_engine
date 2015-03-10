@@ -63,20 +63,24 @@ class SalesEngine
   end
 
   def find_transactions_for_customer(id)
-    invoices = @invoice_repository.find_all_by_customer_id(id)
-    transactions = invoices.map do |invoice|
+    invoices = find_invoices_by_customer_id(id)
+    invoices.flat_map do |invoice|
       find_transactions_by_invoice_id(invoice.id)
+    end
+  end
+
+  def find_invoices_for_successful_transactions(transactions)
+    transactions.flat_map do |transaction|
+      if transaction.result == "success"
+        find_invoice_by_id(transaction.invoice_id)
+      end
     end
   end
 
   def find_favorite_merchant_for_customer(id)
     transactions = find_transactions_for_customer(id).flatten
-    invoices = transactions.flat_map do |transaction|
-      if transaction.result == "success"
-        find_invoice_by_id(transaction.invoice_id)
-      end
-    end
-    merchants = invoices.map do |invoice|
+    invoices = find_invoices_for_successful_transactions(transactions)
+    merchants = invoices.flat_map do |invoice|
       find_merchant_by_id(invoice.merchant_id)
     end
     merchants.first
