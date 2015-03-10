@@ -92,11 +92,8 @@ class MerchantRepository
   end
 
   def most_revenue(n)
-   merchants_revenue = @merchants.flat_map do |merchant|
-     merchant.revenue
-   end
     @merchants.sort_by do |merchant|
-      merchants_revenue
+      merchant.revenue
     end.reverse.first(n)
   end
   
