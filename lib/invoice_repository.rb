@@ -121,4 +121,27 @@ class InvoiceRepository
   def find_merchant(id)
     sales_engine.find_merchant_by_id(id)
   end
+
+  def create(input)
+    # invoices << Invoice.new(invoices.last.id + 1, customer, merchant, status, Date.now, Date.now, self)
+    invoice = Invoice.new(
+      id = invoices.last.id + 1,
+      customer_id = input[:customer].id,
+      merchant_id = input[:merchant].id,
+      status = input[:status],
+      created_at = Time.now,
+      updated_at = Time.now,
+      self,
+    )
+    invoices << invoice
+
+    input[:items].each do |item|
+      sales_engine.create_new_invoice_item(item, invoices.last.id)
+    end
+    invoice
+  end
+
+  def move_to_transactions(credit_card_number, credit_card_expiration_date, result)
+    sales_engine.transaction_repository << Transaction.new(sales_engine.transaction_repository.last.id + 1, invoices.last.id, credit_card_number, credit_card_expiration_date, result, Date.now, Date.now, sales_engine.transaction_repository)
+  end
 end

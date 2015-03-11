@@ -122,4 +122,19 @@ class InvoiceItemRepository
   def find_item(item_id)
     sales_engine.find_item_by_id(item_id)
   end
+
+  def create_new_invoice_item(item, invoice_id)
+    invoice_item = InvoiceItem.new(
+      invoice_items.last.id + 1,
+      item[:id],
+      invoice_id,
+      item[:quantity],
+      item[:unit_price],
+      item[:created_at],
+      item[:updated_at],
+      self
+    )
+    @invoice_items << invoice_item
+    invoice_item
+  end
 end
