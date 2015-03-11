@@ -22,4 +22,8 @@ class Item
   def merchant
     repo.find_merchant(merchant_id)
   end
+
+  def revenue
+    invoice_items.map(&:revenue).reduce(0, :+)
+  end
 end
