@@ -35,6 +35,10 @@ class Invoice
     repo.find_invoice_items(id)
   end
 
+  def quantity_invoice_items_sold
+    invoice_items.map(&:quantity).reduce(0, :+)
+  end
+
   def items
     repo.find_items(id)
   end

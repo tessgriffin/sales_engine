@@ -46,4 +46,8 @@ class Merchant
   def customers_with_pending_invoices
     @repo.find_customers_with_pending_invoices(id)
   end
+
+  def items_sold
+    successful_invoices.map(&:quantity_invoice_items_sold).reduce(0, :+)
+  end
 end

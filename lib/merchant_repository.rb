@@ -97,6 +97,14 @@ class MerchantRepository
     end.reverse.first(n)
   end
 
+  def items_sold
+    @merchants.map(&:items_sold).reduce(0, :+)
+  end
+
+  def most_items(n)
+    @merchants.sort_by(&:items_sold).reverse.first(n)
+  end
+
   def find_favorite_customer(id)
     @sales_engine.find_favorite_customer_for_merchant(id)
   end
