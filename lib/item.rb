@@ -43,6 +43,10 @@ class Item
       date = Date.parse(date)
       hash[date] += invoice_item.quantity
       hash
-    end 
+    end
+  end
+
+  def number_sold
+    repo.find_items_sold(id)
   end
 end

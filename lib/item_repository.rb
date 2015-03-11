@@ -132,4 +132,20 @@ class ItemRepository
   def most_revenue(x)
     @items.sort_by(&:revenue).reverse.first(x)
   end
+
+  def find_successful_invoice_items(id)
+    find_invoice_items(id).select do |invoice_item|
+      sales_engine.successful_transactions_from_invoice_id(invoice_item.invoice_id)
+    end
+  end
+
+  def find_items_sold(id)
+    find_successful_invoice_items(id).inject(0) do |sum, invoice_item|
+      sum + invoice_item.quantity
+    end
+  end
+
+  def most_items(x)
+    @items.sort_by { |item| item.number_sold }.reverse.first(x)
+  end
 end
