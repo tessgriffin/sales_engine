@@ -31,6 +31,12 @@ class Invoice
     repo.find_transactions(id)
   end
 
+  def successful_transactions
+    transactions.select do |transaction|
+      transaction.result == "success"
+    end
+  end
+
   def invoice_items
     repo.find_invoice_items(id)
   end

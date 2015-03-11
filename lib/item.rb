@@ -19,11 +19,30 @@ class Item
     repo.find_invoice_items(id)
   end
 
+  def successful_invoice_items
+    invoice_items.select do |invoice_item|
+      invoice_item.successful_invoice
+    end
+  end
+
   def merchant
     repo.find_merchant(merchant_id)
   end
 
   def revenue
     invoice_items.map(&:revenue).reduce(0, :+)
+  end
+
+  def best_day
+    grouped_by_date_quantity.max_by { |date, quantity| quantity }.first
+  end
+
+  def grouped_by_date_quantity
+    successful_invoice_items.reduce(Hash.new(0)) do |hash, invoice_item|
+      date = invoice_item.invoice.created_at
+      date = Date.parse(date)
+      hash[date] += invoice_item.quantity
+      hash
+    end 
   end
 end
