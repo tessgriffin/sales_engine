@@ -8,7 +8,15 @@ require_relative 'transaction_repository'
 
 
 class SalesEngine
-  attr_reader :customer_repository, :invoice_item_repository, :invoice_repository, :item_repository, :merchant_repository, :transaction_repository, :filepath
+  attr_reader(
+    :customer_repository,
+    :invoice_item_repository,
+    :invoice_repository,
+    :item_repository,
+    :merchant_repository,
+    :transaction_repository,
+    :filepath
+  )
 
   def initialize(filepath)
     @filepath = filepath
@@ -70,6 +78,22 @@ class SalesEngine
         find_invoice_by_id(transaction.invoice_id)
       end
     end.compact
+  end
+
+  def successful_transactions_from_invoice_id(id)
+    if find_transactions_by_invoice_id(id).nil?
+      false
+    else
+      find_transactions_by_invoice_id(id).any? do |trans|
+        trans.result == "success"
+      end
+    end
+  end
+
+  def find_transactions_by_item_id(id)
+    invoice_items = find_invoice_items_by_item_id(id)
+    invoices = invoice_items.flat_map { |invoice_item| find_invoice_by_id(invoice_item.invoice_id) }
+    transactions = invoices.flat_map { |invoice| find_transactions_by_invoice_id(invoice.id) }
   end
 
   def find_merchant_by_invoice(invoices)
@@ -191,10 +215,8 @@ class SalesEngine
   end
 
   def find_items_by_invoice_id(id)
-    items = @invoice_item_repository.find_all_by_invoice_id(id)
-    items.map do |item|
-      @item_repository.find_by_id(item.item_id)
-    end
+    invoice_items = @invoice_item_repository.find_all_by_invoice_id(id)
+    items = invoice_items.map { |invoice_item| @item_repository.find_by_id(invoice_item.item_id) }
   end
 
   def find_customer_by_id(id)
