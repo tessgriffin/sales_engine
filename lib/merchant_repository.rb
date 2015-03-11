@@ -96,8 +96,12 @@ class MerchantRepository
       merchant.revenue
     end.reverse.first(n)
   end
-  
+
   def find_favorite_customer(id)
     @sales_engine.find_favorite_customer_for_merchant(id)
+  end
+
+  def find_customers_with_pending_invoices(id)
+    @sales_engine.find_customers_with_pending_invoices_for_merchant(id)
   end
 end

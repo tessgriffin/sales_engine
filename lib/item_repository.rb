@@ -124,4 +124,12 @@ class ItemRepository
   def find_merchant(merchant_id)
     sales_engine.find_merchant_by_id(merchant_id)
   end
+
+  def revenue_for_items
+    @items.map(&:revenue).reduce(0, :+)
+  end
+
+  def most_revenue(x)
+    @items.sort_by(&:revenue).reverse.first(x)
+  end
 end

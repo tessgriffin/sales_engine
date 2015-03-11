@@ -99,10 +99,61 @@ class SalesEngine
   end
 
   def find_favorite_customer_for_merchant(id)
-    transactions = find_transactions_for_merchant(id).flatten
-    invoices = find_invoices_for_successful_transactions(transactions)
-    customers = find_customer_by_invoice(invoices)
+    transactions = find_transactions_for_merchant(id)
+    successful_invoices = find_invoices_for_successful_transactions(transactions)
+    customers = find_customer_by_invoice(successful_invoices)
     customers.max_by{|x| customers.count(x)}
+  end
+
+  def find_transactions_by_invoices(invoices)
+    invoices.flat_map do |invoice|
+      find_transactions_by_invoice_id(invoice.id)
+    end
+  end
+
+  def find_failed_transactions(transactions)
+    transactions.flat_map do |transaction|
+      if transaction.result == "failed"
+        transaction
+      end
+    end.compact
+  end
+
+  def find_invoice_ids_by_transaction(transactions)
+    transactions.flat_map do |transaction|
+      transaction.invoice_id
+    end
+  end
+
+  def id_counter_hash(merchant_id)
+    invoices = find_invoices_by_merchant_id(merchant_id)
+    transactions = find_transactions_by_invoices(invoices)
+    invoice_ids = find_invoice_ids_by_transaction(transactions)
+    invoice_ids.each_with_object(Hash.new(0)) { |id ,counts| counts[id] += 1 }
+  end
+
+  def failed_id_counter_hash(merchant_id)
+    invoices = find_invoices_by_merchant_id(merchant_id)
+    transactions = find_transactions_by_invoices(invoices)
+    failed_transactions = find_failed_transactions(transactions)
+    failed_invoice_ids = find_invoice_ids_by_transaction(failed_transactions)
+    failed_invoice_ids.each_with_object(Hash.new(0)) { |id ,counts| counts[id] += 1 }
+  end
+
+  def find_pending_invoices(id)
+    invoice_ids = id_counter_hash(id)
+    failed_invoice_ids = failed_id_counter_hash(id)
+    invoices = find_invoices_by_merchant_id(id)
+    invoices.flat_map do |invoice|
+      if invoice_ids[invoice.id] == failed_invoice_ids[invoice.id]
+        invoice
+      end
+    end.compact
+  end
+
+  def find_customers_with_pending_invoices_for_merchant(id)
+    pending_invoices = find_pending_invoices(id)
+    find_customer_by_invoice(pending_invoices)
   end
 
   def find_invoice_by_transaction_id(id)
