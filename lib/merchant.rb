@@ -42,4 +42,8 @@ class Merchant
   def favorite_customer
     @repo.find_favorite_customer(id)
   end
+
+  def customers_with_pending_invoices
+    @repo.find_customers_with_pending_invoices(id)
+  end
 end

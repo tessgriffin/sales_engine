@@ -81,6 +81,46 @@ class SalesEngineTest < Minitest::Test
     assert_equal "Toy", customer.last_name
   end
 
+  def test_it_can_find_transactions_by_invoices
+    invoices = @engine.find_invoices_by_merchant_id(8)
+    transactions = @engine.find_transactions_by_invoices(invoices)
+    assert_equal 42, transactions.count
+  end
+
+  def test_it_can_find_failed_transactions
+    invoices = @engine.find_invoices_by_merchant_id(8)
+    transactions = @engine.find_transactions_by_invoices(invoices)
+    failed_transactions = @engine.find_failed_transactions(transactions)
+    assert_equal 7, failed_transactions.count
+  end
+
+  def test_it_can_find_invoice_ids_by_transaction
+    invoices = @engine.find_invoices_by_merchant_id(8)
+    transactions = @engine.find_transactions_by_invoices(invoices)
+    invoice_ids = @engine.find_invoice_ids_by_transaction(transactions)
+    assert_equal invoices.first.id, invoice_ids.first
+  end
+
+  def test_id_counter_hash
+    invoice_id_hash = @engine.id_counter_hash(8)
+    assert_equal 3, invoice_id_hash[12]
+  end
+
+  def test_failed_id_counter_hash
+    failed_invoice_id_hash = @engine.failed_id_counter_hash(8)
+    assert_equal 2, failed_invoice_id_hash[12]
+  end
+
+  def test_it_can_find_pending_invoices
+    pending_invoices = @engine.find_pending_invoices(8)
+    assert_equal 1, pending_invoices.count
+  end
+
+  def test_find_customers_with_pending_invoices_for_merchant
+    customers = @engine.find_customers_with_pending_invoices_for_merchant(8)
+    assert_equal "Langworth", customers.first.last_name
+  end
+
   def test_it_can_find_invoices_by_transaction_id
     invoice = @engine.find_invoice_by_transaction_id(3)
     assert_equal 33, invoice.merchant_id
