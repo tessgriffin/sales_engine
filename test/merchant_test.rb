@@ -48,7 +48,7 @@ class MerchantTest < Minitest::Test
   end
 
   def test_find_revenue_for_merchant
-    skip
+    # skip
     invoices = [
       invoice_with_revenue(68175),
       invoice_with_revenue(50000),
@@ -60,7 +60,7 @@ class MerchantTest < Minitest::Test
 
   def invoice_with_revenue(revenue)
     invoice = Object.new
-    invoice.define_singleton_method(:revenue) do 
+    invoice.define_singleton_method(:revenue) do
       revenue
     end
     invoice

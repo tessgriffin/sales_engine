@@ -61,7 +61,7 @@ class Invoice
     invoice_items.map(&:revenue).reduce(0, :+)
   end
 
-  def charge(credit_card_number, credit_card_expiration_date, result)
-    repo.move_to_transactions(credit_card_number, credit_card_expiration_date, result)
+  def charge(input)
+    repo.move_to_transactions(id, input[:credit_card_number], input[:credit_card_expiration_date], input[:result])
   end
 end

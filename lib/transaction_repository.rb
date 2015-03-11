@@ -118,4 +118,19 @@ class TransactionRepository
   def find_invoice(id)
     sales_engine.find_invoice_by_id(id)
   end
+
+  def create_new_transaction(invoice_id, credit_card_number, credit_card_expiration_date, result)
+    transaction = Transaction.new(
+      transactions.last.id + 1,
+      invoice_id,
+      credit_card_number,
+      credit_card_expiration_date,
+      result,
+      Time.now,
+      Time.now,
+      self
+    )
+    @transactions << transaction
+    transaction
+  end
 end
