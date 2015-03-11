@@ -6,7 +6,6 @@ require_relative 'item_repository'
 require_relative 'merchant_repository'
 require_relative 'transaction_repository'
 
-
 class SalesEngine
   attr_reader(
     :customer_repository,
@@ -14,9 +13,10 @@ class SalesEngine
     :invoice_repository,
     :item_repository,
     :merchant_repository,
-    :transaction_repository,
     :filepath
   )
+
+  attr_accessor :transaction_repository
 
   def initialize(filepath)
     @filepath = filepath
@@ -32,8 +32,8 @@ class SalesEngine
   end
 
   def initialize_merchant_repository
-    data = Parser.call("#{@filepath}/merchants.csv")
-    @merchant_repository = MerchantRepository.new(data, self)
+    merchant_data = Parser.call("#{@filepath}/merchants.csv")
+    @merchant_repository = MerchantRepository.new(merchant_data, self)
   end
 
   def initialize_customer_repository
@@ -225,5 +225,9 @@ class SalesEngine
 
   def find_merchant_by_id(id)
     @merchant_repository.find_by_id(id)
+  end
+
+  def create_new_invoice_item(item, invoice_id)
+    @invoice_item_repository.create_new_invoice_item(item, invoice_id)
   end
 end

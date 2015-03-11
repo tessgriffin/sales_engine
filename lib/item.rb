@@ -15,6 +15,10 @@ class Item
     @repo = repo
   end
 
+  def [](key)
+    __send__(key) if respond_to? key
+  end
+
   def invoice_items
     repo.find_invoice_items(id)
   end
