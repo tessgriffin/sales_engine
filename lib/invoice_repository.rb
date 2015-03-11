@@ -123,7 +123,6 @@ class InvoiceRepository
   end
 
   def create(input)
-    # invoices << Invoice.new(invoices.last.id + 1, customer, merchant, status, Date.now, Date.now, self)
     invoice = Invoice.new(
       id = invoices.last.id + 1,
       customer_id = input[:customer].id,
@@ -141,7 +140,7 @@ class InvoiceRepository
     invoice
   end
 
-  def move_to_transactions(credit_card_number, credit_card_expiration_date, result)
-    sales_engine.transaction_repository << Transaction.new(sales_engine.transaction_repository.last.id + 1, invoices.last.id, credit_card_number, credit_card_expiration_date, result, Date.now, Date.now, sales_engine.transaction_repository)
+  def move_to_transactions(invoice_id, credit_card_number, credit_card_expiration_date, result)
+    sales_engine.create_new_transaction(invoice_id, credit_card_number, credit_card_expiration_date, result)
   end
 end

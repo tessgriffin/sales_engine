@@ -230,4 +230,8 @@ class SalesEngine
   def create_new_invoice_item(item, invoice_id)
     @invoice_item_repository.create_new_invoice_item(item, invoice_id)
   end
+
+  def create_new_transaction(invoice_id, credit_card_number, credit_card_expiration_date, result)
+    @transaction_repository.create_new_transaction(invoice_id, credit_card_number, credit_card_expiration_date, result)
+  end
 end
