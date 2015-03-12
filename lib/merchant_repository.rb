@@ -11,7 +11,7 @@ class MerchantRepository
         merchant["created_at"],
         merchant["updated_at"],
         self
-        )
+      )
     end
     @sales_engine = sales_engine
   end
