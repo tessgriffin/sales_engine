@@ -158,8 +158,9 @@ class InvoiceRepositoryTest < Minitest::Test
     repo = InvoiceRepository.new(@fake_data, @se)
     customer = Customer.new(99, "Bill", "Williams", Time.now, Time.now, "repo")
     merchant = Merchant.new(77, "JJS & Co.", Time.now, Time.now, "repo")
-    repo.create_quantity_hash(customer: customer, merchant: merchant, status: "shipped", items: ["item1", "item1", "item2"])
-    assert_equal 2, repo.quantity_hash["item1"]
+    repo.create_quantity_hash(customer: customer, merchant: merchant, status: "shipped", items: ["item1", "item1", "item2", "item3", "item3", "item3"])
+    assert_equal 2, repo.hash["item1"]
+    assert_equal 3, repo.hash["item3"]
   end
 
   def test_it_can_create_new_invoice
@@ -171,7 +172,6 @@ class InvoiceRepositoryTest < Minitest::Test
     merchant = engine.merchant_repository.find_by_id(12)
 
     items = (1..3).map { engine.item_repository.random }
-
 
     invoice = engine.invoice_repository.create(customer: customer, merchant: merchant, items: items)
 
