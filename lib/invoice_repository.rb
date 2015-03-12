@@ -1,7 +1,7 @@
 require_relative 'invoice'
 
 class InvoiceRepository
-  attr_reader :invoices, :sales_engine
+  attr_reader :invoices, :sales_engine, :quantity_hash
 
   def initialize(parsed_data, sales_engine)
     @invoices = parsed_data.map do |data|
@@ -122,6 +122,13 @@ class InvoiceRepository
     sales_engine.find_merchant_by_id(id)
   end
 
+  def create_quantity_hash(input)
+    @quantity_hash = Hash.new(0)
+    input[:items].each do |item|
+      @quantity_hash[item] += 1
+    end
+  end
+
   def create(input)
     invoice = Invoice.new(
       id = invoices.last.id + 1,
@@ -134,8 +141,10 @@ class InvoiceRepository
     )
     invoices << invoice
 
+    create_quantity_hash(input)
+
     input[:items].each do |item|
-      sales_engine.create_new_invoice_item(item, invoices.last.id)
+      sales_engine.create_new_invoice_item(item, invoices.last.id, @quantity_hash[item])
     end
     invoice
   end

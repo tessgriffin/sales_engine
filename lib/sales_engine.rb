@@ -233,8 +233,8 @@ class SalesEngine
     @merchant_repository.find_by_id(id)
   end
 
-  def create_new_invoice_item(item, invoice_id)
-    @invoice_item_repository.create_new_invoice_item(item, invoice_id)
+  def create_new_invoice_item(item, invoice_id, quantity)
+    @invoice_item_repository.create_new_invoice_item(item, invoice_id, quantity)
   end
 
   def create_new_transaction(
