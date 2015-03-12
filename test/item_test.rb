@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 require_relative '../lib/item'
+require_relative '../lib/sales_engine'
 
 class ItemsTest < Minitest::Test
   def test_it_exists
@@ -60,5 +61,24 @@ class ItemsTest < Minitest::Test
     parent.expect(:find_merchant, [2], [item.merchant_id])
     assert_equal [2], item.merchant
     parent.verify
+  end
+
+  def test_item_revenue
+    sales_engine = SalesEngine.new("./fixtures")
+    sales_engine.startup
+    assert_equal 21455, sales_engine.item_repository.items[3].revenue
+    assert_equal 670760, sales_engine.item_repository.items[1].revenue
+  end
+
+  def test_best_day
+    sales_engine = SalesEngine.new("./fixtures")
+    sales_engine.startup
+    assert_equal Date.parse("2012-03-25"), sales_engine.item_repository.items[3].best_day    
+  end
+
+  def test_number_sold
+    sales_engine = SalesEngine.new("./fixtures")
+    sales_engine.startup
+    assert_equal 10, sales_engine.item_repository.items[1].number_sold    
   end
 end

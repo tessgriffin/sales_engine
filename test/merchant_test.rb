@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 require_relative "../lib/merchant"
+require_relative "../lib/sales_engine"
 
 class MerchantTest < Minitest::Test
   def test_it_exists
@@ -47,30 +48,28 @@ class MerchantTest < Minitest::Test
     parent.verify
   end
 
-  def test_find_revenue_for_merchant
-    skip
-    invoices = [
-      invoice_with_revenue(68175),
-      invoice_with_revenue(50000),
-    ]
-    repo = repository_with_invoices(invoices)
-    merchant = Merchant.new(nil, nil, nil, nil, repo)
-    assert_equal "1181.75", merchant.revenue
+  def test_revenue_for_merchant
+    sales_engine = SalesEngine.new("./fixtures/")
+    sales_engine.startup
+    assert_equal BigDecimal.new("10283.02"), sales_engine.merchant_repository.merchants[1].revenue
   end
 
-  def invoice_with_revenue(revenue)
-    invoice = Object.new
-    invoice.define_singleton_method(:revenue) do
-      revenue
-    end
-    invoice
+  def test_items_sold
+    sales_engine = SalesEngine.new("./fixtures/")
+    sales_engine.startup
+    assert_equal 23, sales_engine.merchant_repository.merchants[50].items_sold
   end
 
-  def repository_with_invoices(invoices)
-    repository = Object.new
-    repository.define_singleton_method(:find_invoices) do |*|
-      invoices
-    end
-    repository
+  def test_customer_with_pending_invoices
+    sales_engine = SalesEngine.new("./fixtures/")
+    sales_engine.startup 
+    assert_equal 1, sales_engine.merchant_repository.merchants[1].customers_with_pending_invoices.size
+  end
+
+  def test_favorite_customer
+    sales_engine = SalesEngine.new("./fixtures/")
+    sales_engine.startup 
+    assert_equal "Reynolds", sales_engine.merchant_repository.merchants[1].favorite_customer.last_name
+    assert_equal "Baumbach", sales_engine.merchant_repository.merchants[2].favorite_customer.last_name
   end
 end

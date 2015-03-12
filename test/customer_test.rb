@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 require_relative "../lib/customer"
+require_relative "../lib/sales_engine"
 
 class CustomerTest < Minitest::Test
   def test_it_exists
@@ -42,5 +43,17 @@ class CustomerTest < Minitest::Test
     parent.expect(:find_invoices, [1, 2], [1])
     assert_equal [1, 2], customer.invoices
     parent.verify
+  end
+
+  def test_favorite_merchant
+    sales_engine = SalesEngine.new("./fixtures")
+    sales_engine.startup
+    assert_equal "Shields, Hirthe and Smith", sales_engine.customer_repository.customers[1].favorite_merchant.name    
+  end
+
+  def test_transactions_for_customer
+    sales_engine = SalesEngine.new("./fixtures")
+    sales_engine.startup
+    assert_equal 7, sales_engine.customer_repository.customers[2].transactions.size
   end
 end

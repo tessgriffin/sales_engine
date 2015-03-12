@@ -1,6 +1,7 @@
 require_relative 'test_helper'
 require_relative "../lib/merchant_repository"
 require_relative "../lib/sales_engine"
+require 'bigdecimal'
 
 class MerchantRepositoryTest < Minitest::Test
   attr_reader :se
@@ -108,5 +109,29 @@ class MerchantRepositoryTest < Minitest::Test
     parent.expect(:find_invoices_by_merchant_id, [1, 2], [1])
     assert_equal [1, 2], repo.find_invoices(1)
     parent.verify
+  end
+
+  def test_revenue
+    engine = SalesEngine.new("./fixtures")
+    engine.startup
+    assert_equal BigDecimal.new("666444.52"), engine.merchant_repository.revenue(nil)
+  end
+
+  def test_most_revenue
+    engine = SalesEngine.new("./fixtures")
+    engine.startup
+    assert_equal "Bechtelar, Jones and Stokes", engine.merchant_repository.most_revenue(1).first.name
+  end
+
+  def test_items_sold
+    engine = SalesEngine.new("./fixtures")
+    engine.startup
+    assert_equal 1290, engine.merchant_repository.items_sold
+  end
+
+  def test_most_items
+    engine = SalesEngine.new("./fixtures")
+    engine.startup
+    assert_equal "Bechtelar, Jones and Stokes", engine.merchant_repository.most_items(1).first.name
   end
 end

@@ -151,4 +151,22 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal [1, 2], repo.find_merchant(1)
     parent.verify
   end
+
+  def test_it_can_create_new_invoice
+    engine = SalesEngine.new("./fixtures")
+    engine.startup
+    assert_equal 299, engine.invoice_repository.invoices.size
+
+    customer = engine.customer_repository.find_by_id(1)
+    merchant = engine.merchant_repository.find_by_id(12)
+
+    items = (1..3).map { engine.item_repository.random }
+
+
+    invoice = engine.invoice_repository.create(customer: customer, merchant: merchant, items: items)
+
+    assert_equal 300, engine.invoice_repository.invoices.size
+    assert_equal invoice.merchant_id ,merchant.id
+    assert_equal invoice.customer.id ,customer.id
+  end
 end
