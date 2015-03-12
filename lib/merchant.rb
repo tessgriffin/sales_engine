@@ -44,7 +44,7 @@ class Merchant
   end
 
   def customers_with_pending_invoices
-    @repo.find_customers_with_pending_invoices(id)
+    @repo.find_customers_with_pending_invoices(id).compact
   end
 
   def items_sold
