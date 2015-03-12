@@ -62,6 +62,11 @@ class Invoice
   end
 
   def charge(input)
-    repo.move_to_transactions(id, input[:credit_card_number], input[:credit_card_expiration_date], input[:result])
+    repo.move_to_transactions(
+      id,
+      input[:credit_card_number],
+      input[:credit_card_expiration_date],
+      input[:result]
+    )
   end
 end

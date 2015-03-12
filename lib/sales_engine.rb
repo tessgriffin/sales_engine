@@ -42,8 +42,8 @@ class SalesEngine
   end
 
   def initialize_invoice_item_repository
-    invoice_items_data = Parser.call("#{@filepath}/invoice_items.csv")
-    @invoice_item_repository = InvoiceItemRepository.new(invoice_items_data, self)
+    data = Parser.call("#{@filepath}/invoice_items.csv")
+    @invoice_item_repository = InvoiceItemRepository.new(data, self)
   end
 
   def initialize_invoice_repository
@@ -92,8 +92,12 @@ class SalesEngine
 
   def find_transactions_by_item_id(id)
     invoice_items = find_invoice_items_by_item_id(id)
-    invoices = invoice_items.flat_map { |invoice_item| find_invoice_by_id(invoice_item.invoice_id) }
-    transactions = invoices.flat_map { |invoice| find_transactions_by_invoice_id(invoice.id) }
+    invoices = invoice_items.flat_map do |invoice_item|
+      find_invoice_by_id(invoice_item.invoice_id)
+    end
+    transactions = invoices.flat_map do |invoice|
+      find_transactions_by_invoice_id(invoice.id)
+    end
   end
 
   def find_merchant_by_invoice(invoices)
@@ -124,8 +128,8 @@ class SalesEngine
 
   def find_favorite_customer_for_merchant(id)
     transactions = find_transactions_for_merchant(id)
-    successful_invoices = find_invoices_for_successful_transactions(transactions)
-    customers = find_customer_by_invoice(successful_invoices)
+    success_invoices = find_invoices_for_successful_transactions(transactions)
+    customers = find_customer_by_invoice(success_invoices)
     customers.max_by{|x| customers.count(x)}
   end
 
@@ -216,7 +220,9 @@ class SalesEngine
 
   def find_items_by_invoice_id(id)
     invoice_items = @invoice_item_repository.find_all_by_invoice_id(id)
-    items = invoice_items.map { |invoice_item| @item_repository.find_by_id(invoice_item.item_id) }
+    items = invoice_items.map do |invoice_item|
+      @item_repository.find_by_id(invoice_item.item_id)
+    end
   end
 
   def find_customer_by_id(id)
@@ -231,7 +237,16 @@ class SalesEngine
     @invoice_item_repository.create_new_invoice_item(item, invoice_id)
   end
 
-  def create_new_transaction(invoice_id, credit_card_number, credit_card_expiration_date, result)
-    @transaction_repository.create_new_transaction(invoice_id, credit_card_number, credit_card_expiration_date, result)
+  def create_new_transaction(invoice_id,
+                             credit_card_number,
+                             credit_card_expiration_date,
+                             result
+                            )
+    @transaction_repository.create_new_transaction(
+      invoice_id,
+      credit_card_number,
+      credit_card_expiration_date,
+      result
+    )
   end
 end
