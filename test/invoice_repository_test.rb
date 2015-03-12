@@ -1,5 +1,7 @@
 require_relative 'test_helper'
 require_relative "../lib/invoice_repository"
+require_relative "../lib/customer"
+require_relative "../lib/merchant"
 require_relative "../lib/sales_engine"
 
 class InvoiceRepositoryTest < Minitest::Test
@@ -150,6 +152,14 @@ class InvoiceRepositoryTest < Minitest::Test
     parent.expect(:find_merchant_by_id, [1, 2], [1])
     assert_equal [1, 2], repo.find_merchant(1)
     parent.verify
+  end
+
+  def test_quantity_calculation
+    repo = InvoiceRepository.new(@fake_data, @se)
+    customer = Customer.new(99, "Bill", "Williams", Time.now, Time.now, "repo")
+    merchant = Merchant.new(77, "JJS & Co.", Time.now, Time.now, "repo")
+    repo.create_quantity_hash(customer: customer, merchant: merchant, status: "shipped", items: ["item1", "item1", "item2"])
+    assert_equal 2, repo.quantity_hash["item1"]
   end
 
   def test_it_can_create_new_invoice
