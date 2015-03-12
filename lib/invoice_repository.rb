@@ -145,7 +145,7 @@ class InvoiceRepository
     credit_card_number,
     credit_card_expiration_date,
     result
-    )
+  )
     sales_engine.create_new_transaction(
       invoice_id,
       credit_card_number,

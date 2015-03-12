@@ -16,7 +16,7 @@ class ItemRepository
         item["created_at"],
         item["updated_at"],
         self
-        )
+      )
     end
     @sales_engine = sales_engine
   end

@@ -20,7 +20,7 @@ class Item
       created_at,
       updated_at,
       repo
-    )
+  )
 
     @id = id.to_i
     @name = name
